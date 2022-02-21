@@ -33,7 +33,7 @@ public class UserSQL implements UserDAO {
         public List<User> getAll() {
         String sql = """
                 SELECT id, name, phoneNumber, email
-                FROM user
+                FROM users
                 """;
 
         return jdbcTemplate.query(sql, (rs, rowNum) ->
@@ -49,7 +49,7 @@ public class UserSQL implements UserDAO {
     @Override
         public User getById(int id) {
 
-        String sql = "SELECT id, name, phoneNumber, email FROM venues WHERE id = ?";
+        String sql = "SELECT id, name, phoneNumber, email FROM users WHERE id = ?";
 
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
                         new User(
