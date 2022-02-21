@@ -1,4 +1,4 @@
-package guide;
+package com.chaperones.guide;
 
 import java.util.List;
 

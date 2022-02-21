@@ -1,5 +1,4 @@
-package guide;
-
+package com.chaperones.guide;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("postgres")
-public class GuideSQL implements guide.GuideDAO {
+public class GuideSQL implements GuideDAO {
     private JdbcTemplate jdbcTemplate;
 
     public GuideSQL(JdbcTemplate jdbcTemplate){
