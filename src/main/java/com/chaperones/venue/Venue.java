@@ -16,9 +16,8 @@ public class Venue {
         this.address = address;
     }
 
-    public Venue(){
+    public Venue(){}
 
-    }
     public Integer getId(){
         return id;
     }
