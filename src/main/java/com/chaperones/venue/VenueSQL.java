@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("postgres")
-public class VenueSQL implements VenueDAO{
+public class VenueSQL implements venue.VenueDAO {
 
     private JdbcTemplate jdbcTemplate;
 
@@ -15,7 +15,7 @@ public class VenueSQL implements VenueDAO{
     }
 
     @Override
-    public int add(Venue venue) {
+    public int add(venue.Venue venue) {
 
         String sql = "INSERT INTO venues (name, area, address) VALUES(?, ?, ?)";
 
@@ -27,12 +27,12 @@ public class VenueSQL implements VenueDAO{
     }
 
     @Override
-    public List<Venue> getAll() {
+    public List<venue.Venue> getAll() {
 
         String sql = "SELECT id, name, area, address FROM venues";
 
         return jdbcTemplate.query(sql, (rs, rowNum) ->
-            new Venue(
+            new venue.Venue(
                 rs.getInt("id"),
                 rs.getString("name"),
                 rs.getString("area"),
@@ -42,12 +42,12 @@ public class VenueSQL implements VenueDAO{
     }
 
     @Override
-    public Venue getById(Integer id) {
+    public venue.Venue getById(Integer id) {
 
         String sql = "SELECT id, name, area, address FROM venues WHERE id = ?";
 
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
-            new Venue(
+            new venue.Venue(
                 rs.getInt("id"),
                 rs.getString("name"),
                 rs.getString("area"),
@@ -58,11 +58,11 @@ public class VenueSQL implements VenueDAO{
     }
 
     @Override
-    public int updateById(Integer id, Venue update) {
+    public int updateById(Integer id, venue.Venue update) {
 
         String sql = "UPDATE venues SET (name, area, address)=(?, ?, ?) WHERE id = ?";
 
-        Venue original = getById(id);
+        venue.Venue original = getById(id);
 
         String newName = update.getName();
         if (newName == null) newName = original.getName();
