@@ -47,7 +47,7 @@ public class GuideSQL implements GuideDAO {
 
         List<Guide> guides = jdbcTemplate.query(sql, guideRowMapper);
         return guides;
-    };
+    }
 
     @Override
     public Guide getById(Integer id) {
@@ -60,10 +60,10 @@ public class GuideSQL implements GuideDAO {
                         rs.getString("phoneNumber"),
                         rs.getString("email")
                 ), id);
-    };
+    }
 
-
-    public int updateById(int id, Guide update) {
+    @Override
+    public int updateById(Integer id, Guide update) {
             String sql = """
                     UPDATE guides SET(name, phoneNumber, email) = (?, ?, ?) WHERE id = ?""";
             Guide original = getById(id);
@@ -86,14 +86,14 @@ public class GuideSQL implements GuideDAO {
             return updated;
     }
 
-    ;
 
-    public int deleteById(int id) {
+    @Override
+    public int deleteById(Integer id) {
         String sql = """
                 DELETE FROM guides WHERE id = ?""";
         return jdbcTemplate.update(sql, id);
 
     }
 
-    
+
 }
