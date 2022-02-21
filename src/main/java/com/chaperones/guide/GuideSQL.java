@@ -14,7 +14,7 @@ public class GuideSQL implements GuideDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
     @Override
-    public int add(guide.Guide guide) {
+    public int add(Guide guide) {
         String sql = """
             INSERT INTO guides(name, phoneNumber, email) 
             VALUES(?,?,?) 
@@ -29,13 +29,13 @@ public class GuideSQL implements GuideDAO {
     }
 
     @Override
-    public List<guide.Guide> getAll() {
+    public List<Guide> getAll() {
         String sql = """
                 SELECT id, name, phoneNumber, email 
                 FROM  guides""";
 
-        RowMapper<guide.Guide> guideRowMapper = (rs, rowNum) -> {
-            guide.Guide guide = new guide.Guide(
+        RowMapper<Guide> guideRowMapper = (rs, rowNum) -> {
+            Guide guide = new Guide(
                     rs.getInt("id"),
                     rs.getString("name"),
                     rs.getString("phoneNumber"),
@@ -44,17 +44,17 @@ public class GuideSQL implements GuideDAO {
             return guide;
         };
 
-        List<guide.Guide> guides = jdbcTemplate.query(sql, guideRowMapper);
+        List<Guide> guides = jdbcTemplate.query(sql, guideRowMapper);
         return guides;
     }
 
     @Override
-    public guide.Guide getById(Integer id) {
+    public Guide getById(Integer id) {
         String sql = """
                 SELECT id, name, phoneNumber, email 
                 FROM guides""";
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
-                new guide.Guide(rs.getInt("id"),
+                new Guide(rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("phoneNumber"),
                         rs.getString("email")
@@ -62,10 +62,10 @@ public class GuideSQL implements GuideDAO {
     }
 
     @Override
-    public int updateById(Integer id, guide.Guide update) {
+    public int updateById(Integer id, Guide update) {
             String sql = """
                     UPDATE guides SET(name, phoneNumber, email) = (?, ?, ?) WHERE id = ?""";
-            guide.Guide original = getById(id);
+            Guide original = getById(id);
 
             String newName = update.getName();
             if(newName == null){
