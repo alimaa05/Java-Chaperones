@@ -10,7 +10,7 @@ import com.chaperones.venue.Venue;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-@Repository("postgres")
+@Repository("activitiesPostgres")
 public class ActivitySQL implements ActivityDAO {
 
     private JdbcTemplate jdbcTemplate;
