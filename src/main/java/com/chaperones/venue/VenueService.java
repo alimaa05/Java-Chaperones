@@ -10,7 +10,7 @@ public class VenueService {
 
     private VenueDAO venueDAO;
 
-    public VenueService(@Qualifier("postgres") VenueDAO venueDAO) {
+    public VenueService(@Qualifier("venuePostgres") VenueDAO venueDAO) {
         this.venueDAO = venueDAO;
     }
 
