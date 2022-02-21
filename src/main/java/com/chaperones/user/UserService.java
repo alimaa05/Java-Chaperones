@@ -10,7 +10,7 @@ public class UserService {
 
     private UserDAO userDAO;
 
-    public UserService(@Qualifier("postgres") UserDAO userDAO){
+    public UserService(@Qualifier("userPostgres") UserDAO userDAO){
         this.userDAO = userDAO;
     }
 
