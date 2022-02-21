@@ -15,7 +15,7 @@ public class UserSQL implements UserDAO {
     }
 
     @Override
-        public int add(User user) {
+        public Integer add(User user) {
         String sql = """
                 INSERT INTO users (name, phoneNumber, email)
                 VALUES(?, ?, ?)
@@ -63,7 +63,7 @@ public class UserSQL implements UserDAO {
     }
 
     @Override
-        public int updateById(int id, User update){
+        public Integer updateById(int id, User update){
 
             String sql = "UPDATE users SET (name, phoneNumber, email)=(?, ?, ?) WHERE id = ?";
 
@@ -86,7 +86,7 @@ public class UserSQL implements UserDAO {
         };
 
     @Override
-        public int deleteById(int id){
+        public Integer deleteById(int id){
 
             String sql = "DELETE FROM users WHERE id = ?";
 

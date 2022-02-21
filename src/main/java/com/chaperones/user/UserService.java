@@ -26,14 +26,14 @@ public class UserService {
         return userDAO.getAll();
     }
 
-    public User getUserById(int id) {
+    public User getUserById(Integer id) {
         User selected = userDAO.getById(id);
         if (selected == null){
             throw new IllegalStateException("Could not find user...");
         } else return selected;
     }
 
-    public void updateUserById(int id, User user) {
+    public void updateUserById(Integer id, User user) {
         if (userDAO.getById(id) == null) {
             throw new IllegalStateException("Could not find user...");
         }
@@ -45,7 +45,7 @@ public class UserService {
         }
     }
 
-    public void deleteUserById(int id) {
+    public void deleteUserById(Integer id) {
         if (userDAO.getById(id) == null) {
             throw new IllegalStateException("Could not find user...");
         }
