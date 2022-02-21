@@ -1,7 +1,7 @@
-package activity;
+package com.chaperones.activity;
 
-import guide.Guide;
-import venue.Venue;
+import com.chaperones.guide.Guide;
+import com.chaperones.venue.Venue;
 
 import java.util.List;
 

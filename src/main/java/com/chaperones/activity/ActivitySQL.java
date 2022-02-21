@@ -1,10 +1,11 @@
-package activity;
+package com.chaperones.activity;
 
-import guide.Guide;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import venue.Venue;
+import com.chaperones.guide.Guide;
+import com.chaperones.venue.Venue;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
