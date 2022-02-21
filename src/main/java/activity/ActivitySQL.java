@@ -2,6 +2,7 @@ package activity;
 
 import guide.Guide;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import venue.Venue;
 
@@ -43,9 +44,33 @@ public class ActivitySQL implements ActivityDAO{
 
     // ----------------------------------------------------------
 
+    // Method for getting all the cars
+    @Override
     public List<Activity> getAll(){
+        String sql = """
+                SELECT id, name, description, date, time, duration, price, capacity, cancelled
+                FROM activities
+                """;
+        RowMapper<Activity> activityRowMapper = (rs, rowNum) ->
+           new Activity(
+                  rs.getInt("id"),
+                  rs.getString("name"),
+                  rs.getString("description"),
+                  rs.getInt("date"),
+                  rs.getInt("time"),
+                  rs.getString("duration"),
+                  rs.getDouble("price"),
+                  rs.getInt("capacity"),
+                  rs.getBoolean("cancelled")
+          );
 
-    };
+
+        return jdbcTemplate.query(sql, activityRowMapper);
+        
+    }
+
+    // ----------------------------------------------------------
+
     public Activity getById(int id){
 
     };
