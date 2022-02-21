@@ -8,14 +8,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("postgres")
-public class GuideSQL implements GuideDAO {
+public class GuideSQL implements guide.GuideDAO {
     private JdbcTemplate jdbcTemplate;
 
     public GuideSQL(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
     @Override
-    public int add(Guide guide) {
+    public int add(guide.Guide guide) {
         String sql = """
             INSERT INTO guides(name, phoneNumber, email) 
             VALUES(?,?,?) 
@@ -30,13 +30,13 @@ public class GuideSQL implements GuideDAO {
     }
 
     @Override
-    public List<Guide> getAll() {
+    public List<guide.Guide> getAll() {
         String sql = """
                 SELECT id, name, phoneNumber, email 
                 FROM  guides""";
 
-        RowMapper<Guide> guideRowMapper = (rs, rowNum) -> {
-            Guide guide = new Guide(
+        RowMapper<guide.Guide> guideRowMapper = (rs, rowNum) -> {
+            guide.Guide guide = new guide.Guide(
                     rs.getInt("id"),
                     rs.getString("name"),
                     rs.getString("phoneNumber"),
@@ -45,17 +45,17 @@ public class GuideSQL implements GuideDAO {
             return guide;
         };
 
-        List<Guide> guides = jdbcTemplate.query(sql, guideRowMapper);
+        List<guide.Guide> guides = jdbcTemplate.query(sql, guideRowMapper);
         return guides;
     }
 
     @Override
-    public Guide getById(Integer id) {
+    public guide.Guide getById(Integer id) {
         String sql = """
                 SELECT id, name, phoneNumber, email 
                 FROM guides""";
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
-                new Guide(rs.getInt("id"),
+                new guide.Guide(rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("phoneNumber"),
                         rs.getString("email")
@@ -63,10 +63,10 @@ public class GuideSQL implements GuideDAO {
     }
 
     @Override
-    public int updateById(Integer id, Guide update) {
+    public int updateById(Integer id, guide.Guide update) {
             String sql = """
                     UPDATE guides SET(name, phoneNumber, email) = (?, ?, ?) WHERE id = ?""";
-            Guide original = getById(id);
+            guide.Guide original = getById(id);
 
             String newName = update.getName();
             if(newName == null){
