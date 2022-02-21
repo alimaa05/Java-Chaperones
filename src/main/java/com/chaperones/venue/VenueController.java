@@ -7,29 +7,29 @@ import java.util.List;
 @RestController
 public class VenueController {
 
-    private VenueService venueService;
+    private venue.VenueService venueService;
 
-    public VenueController(VenueService venueService) {
+    public VenueController(venue.VenueService venueService) {
         this.venueService = venueService;
     }
 
     @PostMapping(path = "venues")
-    public void addNewVenue(@RequestBody Venue venue){
+    public void addNewVenue(@RequestBody venue.Venue venue){
         venueService.addNewVenue(venue);
     }
 
     @GetMapping(path = "venues")
-    public List<Venue> getAllVenues() {
+    public List<venue.Venue> getAllVenues() {
         return venueService.getAllVenues();
     }
 
     @GetMapping(path = "venues/{id}")
-    public Venue getVenueById(@PathVariable("id") Integer id) {
+    public venue.Venue getVenueById(@PathVariable("id") Integer id) {
         return venueService.getVenueById(id);
     }
 
     @PutMapping(path = "venues/{id}")
-    public void updateVenueById(@PathVariable("id") Integer id, @RequestBody Venue update) {
+    public void updateVenueById(@PathVariable("id") Integer id, @RequestBody venue.Venue update) {
         venueService.updateVenueById(id, update);
     }
 

@@ -6,14 +6,14 @@ public class Activity {
     private Integer id;
     private String name;
     private String description;
-    private Integer date;
-    private Integer time;
+    private String date;
+    private String time;
     private String duration;
     private Double price;
     private Integer capacity;
     private Boolean cancelled;
 
-    public Activity(Integer id, String name, String description, Integer date, Integer time, String duration, Double price, Integer capacity, Boolean cancelled) {
+    public Activity(Integer id, String name, String description, String date, String time, String duration, Double price, Integer capacity, Boolean cancelled) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -45,19 +45,19 @@ public class Activity {
         this.description = description;
     }
 
-    public Integer getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Integer date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public Integer getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Integer time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
