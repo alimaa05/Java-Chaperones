@@ -3,9 +3,9 @@ package com.chaperones.user;
 import java.util.List;
 
 public interface UserDAO {
-    public Integer add(User user);
+    public int add(User user);
     public List<User> getAll();
-    public User getById(int id);
-    public Integer updateById(int id, User update);
-    public Integer deleteById(int id);
+    public User getById(Integer id);
+    public int updateById(Integer id, User update);
+    public int deleteById(Integer id);
 }
