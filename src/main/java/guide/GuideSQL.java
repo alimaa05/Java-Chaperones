@@ -1,22 +1,55 @@
 package guide;
 
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
-public class GuideSQL implements GuideDAO{
-    public void add(Guide guide){
+@Repository("postgres")
+public class GuideSQL implements GuideDAO {
+    private JdbcTemplate jdbcTemplate;
 
-    };
-    public List<Guide> getAll(){
+    public GuideSQL(JdbcTemplate jdbcTemplate){
+        this.jdbcTemplate = jdbcTemplate;
+    }
+    @Override
+    public int add(Guide guide) {
+        String sql = """
+            INSERT INTO guides(name, phoneNumber, email) 
+            VALUES(?,?,?) 
+            """;
+        int rowsAffected = jdbcTemplate.update(
+                sql, guide.getId(),
+                guide.getName(),
+                guide.getPhoneNumber(),
+                guide.getEmail()
+        );
+    }
 
-    };
-    public Guide getById(int id){
 
-    };
-    public void updateById(int id, Guide update){
 
-    };
-    public void deleteById(int id){
+    public List<Guide> getAll() {
 
-    };
+    }
+
+    ;
+
+    public Guide getById(int id) {
+
+    }
+
+    ;
+
+    public int updateById(int id, Guide update) {
+
+    }
+
+    ;
+
+    public int deleteById(int id) {
+
+    }
+
+    ;
 }
