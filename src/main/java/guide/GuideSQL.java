@@ -49,14 +49,19 @@ public class GuideSQL implements GuideDAO {
         return guides;
     };
 
-
-
-
+    @Override
     public Guide getById(int id) {
+        String sql = """
+                SELECT id, name, phoneNumber, email 
+                FROM guides""";
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+                new Guide(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("phoneNumber"),
+                        rs.getString("email")
+                ), id);
+    };
 
-    }
-
-    ;
 
     public int updateById(int id, Guide update) {
 
