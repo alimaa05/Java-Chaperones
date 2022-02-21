@@ -3,12 +3,14 @@ package venue;
 import java.util.Objects;
 
 public class Venue {
+    private Integer id;
     private String name;
     private String area;
     private String address;
 
 
-    public Venue(String name, String area, String address) {
+    public Venue(Integer id, String name, String area, String address) {
+        this.id = id;
         this.name = name;
         this.area = area;
         this.address = address;
@@ -45,7 +47,8 @@ public class Venue {
     @Override
     public String toString() {
         return "Venue{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", area='" + area + '\'' +
                 ", address='" + address + '\'' +
                 '}';
@@ -56,11 +59,11 @@ public class Venue {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Venue venue = (Venue) o;
-        return Objects.equals(name, venue.name) && Objects.equals(area, venue.area) && Objects.equals(address, venue.address);
+        return Objects.equals(id, venue.id) && Objects.equals(name, venue.name) && Objects.equals(area, venue.area) && Objects.equals(address, venue.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, area, address);
+        return Objects.hash(id, name, area, address);
     }
 }
