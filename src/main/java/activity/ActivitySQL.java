@@ -40,7 +40,7 @@ public class ActivitySQL implements ActivityDAO{
         );
         return rowAffected;
 
-    }
+    };
 
     // ----------------------------------------------------------
 
@@ -66,14 +66,45 @@ public class ActivitySQL implements ActivityDAO{
 
 
         return jdbcTemplate.query(sql, activityRowMapper);
-        
-    }
+
+    };
 
     // ----------------------------------------------------------
 
+    // Method for getting an activity by the id
+    @Override
     public Activity getById(int id){
+        String sql = """
+                SELECT id, name, description, date, time, duration, price, capacity, cancelled
+                FROM activities
+                WHERE id = ?"
+                """;
+
+        //sql object - pass as string
+        // rs - everything between the green brackets - takes the result set
+        // rowNum - argument you're passing in this case id
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+            new Activity(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getInt("date"),
+                    rs.getInt("time"),
+                    rs.getString("duration"),
+                    rs.getDouble("price"),
+                    rs.getInt("capacity"),
+                    rs.getBoolean("cancelled")
+            ),
+                id
+
+        );
 
     };
+
+    // ----------------------------------------------------------
+
+    // Method for updating an activity by the id
+    @Override
     public void updateById(int id, Activity update){
 
     };
