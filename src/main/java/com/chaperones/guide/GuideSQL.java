@@ -13,6 +13,7 @@ public class GuideSQL implements GuideDAO {
     public GuideSQL(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
+
     @Override
     public int add(Guide guide) {
         String sql = """
@@ -93,6 +94,5 @@ public class GuideSQL implements GuideDAO {
         return jdbcTemplate.update(sql, id);
 
     }
-
 
 }
