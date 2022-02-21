@@ -1,4 +1,4 @@
-package activity;
+package com.chaperones.activity;
 
 import java.util.Objects;
 

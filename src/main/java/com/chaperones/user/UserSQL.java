@@ -1,4 +1,4 @@
-package user;
+package com.chaperones.user;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
