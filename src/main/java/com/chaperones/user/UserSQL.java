@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("postgres")
+@Repository("userPostgres")
 public class UserSQL implements UserDAO {
 
     private JdbcTemplate jdbcTemplate;

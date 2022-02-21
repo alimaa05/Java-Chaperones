@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("postgres")
+@Repository("guidePostgres")
 public class GuideSQL implements GuideDAO {
     private JdbcTemplate jdbcTemplate;
 

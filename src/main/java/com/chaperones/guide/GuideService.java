@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class GuideService {
     private GuideDAO guideDAO;
 
-    public GuideService(@Qualifier("postgres") GuideDAO guideDAO) {
+    public GuideService(@Qualifier("guidePostgres") GuideDAO guideDAO) {
         this.guideDAO = guideDAO;
     }
 
