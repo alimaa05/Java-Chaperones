@@ -1,4 +1,4 @@
-package user;
+package com.chaperones.user;
 
 import java.util.List;
 

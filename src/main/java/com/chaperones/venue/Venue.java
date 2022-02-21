@@ -1,4 +1,4 @@
-package venue;
+package com.chaperones.venue;
 
 import java.util.Objects;
 
