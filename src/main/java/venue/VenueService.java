@@ -26,14 +26,14 @@ public class VenueService {
         return venueDAO.getAll();
     }
 
-    public Venue getVenueById(int id) {
+    public Venue getVenueById(Integer id) {
         Venue selected = venueDAO.getById(id);
         if (selected == null){
             throw new IllegalStateException("could not find venue..."); //todo VenueNotFoundException?
         } else return selected;
     }
 
-    public void updateVenueById(int id, Venue venue) {
+    public void updateVenueById(Integer id, Venue venue) {
         if (venueDAO.getById(id) == null) {
             throw new IllegalStateException("could not find venue...");
         }
@@ -45,7 +45,7 @@ public class VenueService {
         }
     }
 
-    public void deleteVenueById(int id) {
+    public void deleteVenueById(Integer id) {
         if (venueDAO.getById(id) == null) {
             throw new IllegalStateException("could not find venue...");
         }

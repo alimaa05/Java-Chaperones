@@ -15,7 +15,7 @@ public class VenueSQL implements VenueDAO{
     }
 
     @Override
-    public int add(Venue venue){
+    public int add(Venue venue) {
 
         String sql = "INSERT INTO venues (name, area, address) VALUES(?, ?, ?)";
 
@@ -27,7 +27,7 @@ public class VenueSQL implements VenueDAO{
     }
 
     @Override
-    public List<Venue> getAll(){
+    public List<Venue> getAll() {
 
         String sql = "SELECT id, name, area, address FROM venues";
 
@@ -42,7 +42,7 @@ public class VenueSQL implements VenueDAO{
     }
 
     @Override
-    public Venue getById(int id){
+    public Venue getById(Integer id) {
 
         String sql = "SELECT id, name, area, address FROM venues WHERE id = ?";
 
@@ -58,7 +58,7 @@ public class VenueSQL implements VenueDAO{
     }
 
     @Override
-    public int updateById(int id, Venue update){
+    public int updateById(Integer id, Venue update) {
 
         String sql = "UPDATE venues SET (name, area, address)=(?, ?, ?) WHERE id = ?";
 
@@ -80,7 +80,7 @@ public class VenueSQL implements VenueDAO{
     }
 
     @Override
-    public int deleteById(int id){
+    public int deleteById(Integer id) {
 
         String sql = "DELETE FROM venues WHERE id = ?";
 
