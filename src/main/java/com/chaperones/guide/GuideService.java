@@ -21,7 +21,7 @@ public class GuideService {
     private Guide guideExist(Integer id) {
         Guide guide = guideDAO.getById(id);
         if(guide == null){
-            throw new GuideDoesNotExistException("This guide does not exist")
+            throw new GuideDoesNotExistException("This guide does not exist");
         }
         return guide;
     }

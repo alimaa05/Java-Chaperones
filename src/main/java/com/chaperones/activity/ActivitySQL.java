@@ -167,7 +167,12 @@ public class ActivitySQL implements ActivityDAO {
 
     public int deleteById(Integer id) {
 
+        String sql = """
+                DELETE FROM activities WHERE id = ?
+                """;
+
+        return jdbcTemplate.update(sql, id);
+
     }
 
-    ;
 }
