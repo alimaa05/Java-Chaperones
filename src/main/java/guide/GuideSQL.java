@@ -2,6 +2,7 @@ package guide;
 
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,15 +26,31 @@ public class GuideSQL implements GuideDAO {
                 guide.getPhoneNumber(),
                 guide.getEmail()
         );
+        return rowsAffected;
     }
 
-
-
+    @Override
     public List<Guide> getAll() {
+        String sql = """
+                SELECT id, name, phoneNumber, email 
+                FROM  guides""";
 
-    }
+        RowMapper<Guide> guideRowMapper = (rs, rowNum) -> {
+            Guide guide = new Guide(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("phoneNumber"),
+                    rs.getString("email")
+            );
+            return guide;
+        };
 
-    ;
+        List<Guide> guides = jdbcTemplate.query(sql, guideRowMapper);
+        return guides;
+    };
+
+
+
 
     public Guide getById(int id) {
 
