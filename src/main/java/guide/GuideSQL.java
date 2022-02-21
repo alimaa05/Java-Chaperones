@@ -50,7 +50,7 @@ public class GuideSQL implements GuideDAO {
     };
 
     @Override
-    public Guide getById(int id) {
+    public Guide getById(Integer id) {
         String sql = """
                 SELECT id, name, phoneNumber, email 
                 FROM guides""";
@@ -64,14 +64,36 @@ public class GuideSQL implements GuideDAO {
 
 
     public int updateById(int id, Guide update) {
+            String sql = """
+                    UPDATE guides SET(name, phoneNumber, email) = (?, ?, ?) WHERE id = ?""";
+            Guide original = getById(id);
 
+            String newName = update.getName();
+            if(newName == null){
+                newName = original.getName();
+            }
+            String newPhone = update.getPhoneNumber();
+            if(newPhone == null){
+                newPhone = original.getPhoneNumber();
+            }
+            String newEmail = update.getEmail();
+            if(newEmail == null) {
+                newEmail = original.getEmail();
+            }
+            //this is the number of rows affected it is returning which is an integer
+        // id is on the end as that is how we are identifying the row we want to change
+            int updated = jdbcTemplate.update(sql, newName, newPhone, newEmail, id);
+            return updated;
     }
 
     ;
 
     public int deleteById(int id) {
+        String sql = """
+                DELETE FROM guides WHERE id = ?""";
+        return jdbcTemplate.update(sql, id);
 
     }
 
-    ;
+    
 }
