@@ -1,7 +1,5 @@
 package venue;
 
-import user.User;
-
 import java.util.List;
 
 public interface VenueDAO {
