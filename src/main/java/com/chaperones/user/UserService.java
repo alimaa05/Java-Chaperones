@@ -18,7 +18,7 @@ public class UserService {
         int result = userDAO.add(user);
 
         if (result != 1) {
-            throw new IllegalStateException("Could not add new user...");
+            throw new UserNotFoundException("User could not be added");
         }
     }
 
@@ -29,34 +29,31 @@ public class UserService {
     public User getUserById(Integer id) {
         User selected = userDAO.getById(id);
         if (selected == null){
-            throw new IllegalStateException("Could not find user...");
+            throw new UserNotFoundException("Users could not be found");
         } else return selected;
     }
 
     public void updateUserById(Integer id, User user) {
         if (userDAO.getById(id) == null) {
-            throw new IllegalStateException("Could not find user...");
+            throw new UserNotFoundException("User with id " + id + " could not found");
         }
 
         int result = userDAO.updateById(id, user);
 
         if (result != 1) {
-            throw new IllegalStateException("Could not update selected user...");
+            throw new UserNotFoundException("User with id " + id + " could not be updated");
         }
     }
 
     public void deleteUserById(Integer id) {
         if (userDAO.getById(id) == null) {
-            throw new IllegalStateException("Could not find user...");
+            throw new IllegalStateException("User with id " + id + " could not found");
         }
 
         int result = userDAO.deleteById(id);
 
         if (result != 1) {
-            throw new IllegalStateException("Could not delete selected user...");
+            throw new IllegalStateException("User with id " + id + " could not be deleted");
         }
     }
-    // cancelled booking for user
-    // update booking for user
-    // about dependency
 }
