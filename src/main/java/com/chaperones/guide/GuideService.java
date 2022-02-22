@@ -54,5 +54,19 @@ public class GuideService {
         //check if the guide exists
         Guide guideExist = doesGuideExist(id);
         return guideDAO.getById(id);
-   } 
+   }
+   public int updateGuide(Integer id, Guide guide){
+       //check if the guide exists if they do not throw exception saying so
+       Guide guideExist = doesGuideExist(id);
+       //call on the method to update a guide by their id in the dao,
+       // passing through the arguments this method accepts which is
+       // the id and the guide information that is to be changed
+       int updated = guideDAO.updateById(id, guide);
+       // check the confirmation that guide has been updated if not
+       // inform user that this has not happened
+       if(updated != 1){
+           throw new IllegalStateException("Unable to update this guide");
+       }
+        return updated;
+   }
 }
