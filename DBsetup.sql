@@ -1,10 +1,10 @@
 --CREATE DATABASE chaperones;
 
+DROP TABLE bookings;
+DROP TABLE activities;
 DROP TABLE venues;
 DROP TABLE guides;
 DROP TABLE users;
-DROP TABLE activities;
-DROP TABLE bookings;
 
 CREATE TABLE venues (
     id SERIAL PRIMARY KEY,
