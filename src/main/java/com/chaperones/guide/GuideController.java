@@ -28,5 +28,10 @@ public class GuideController {
     public Guide getGuideById(@PathVariable("id") Integer guideId){
        return guideService.guideById(guideId);
     }
+    @DeleteMapping("guide/{id}")
+    public void deleteGuideById(@PathVariable("id") Integer guideId){
+        guideService.deleteGuide(guideId);
+    }
+
 
 }
