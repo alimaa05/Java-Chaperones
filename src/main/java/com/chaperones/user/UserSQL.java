@@ -51,15 +51,19 @@ public class UserSQL implements UserDAO {
 
         String sql = "SELECT id, name, phoneNumber, email FROM users WHERE id = ?";
 
-        return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
-                        new User(
-                                rs.getInt("id"),
-                                rs.getString("name"),
-                                rs.getString("phoneNumber"),
-                                rs.getString("email")
-                        ),
-                id
-        );
+        try {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+                            new User(
+                                    rs.getInt("id"),
+                                    rs.getString("name"),
+                                    rs.getString("phoneNumber"),
+                                    rs.getString("email")
+                            ),
+                    id
+            );
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

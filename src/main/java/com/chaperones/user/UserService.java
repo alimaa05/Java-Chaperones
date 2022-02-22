@@ -25,11 +25,11 @@ public class UserService {
                     || getUserById.getEmail().equals(user.getEmail())) {
                 throw new IllegalStateException("User already exists");
             }
+        }
             int addUser = userDAO.add(user);
             if (addUser != 1) {
                 throw new IllegalStateException("User could not be added");
             }
-        }
     }
 
     public User getUserById(Integer id) {
