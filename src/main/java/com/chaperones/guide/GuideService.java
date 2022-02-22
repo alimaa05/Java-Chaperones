@@ -35,7 +35,7 @@ public class GuideService {
         return 1;
     }
 
-    private Guide guideExist(Integer id) {
+    private Guide doesGuideExist(Integer id) {
         Guide guide = guideDAO.getById(id);
         if (guide == null) {
             throw new GuideDoesNotExistException("This guide does not exist");
@@ -43,11 +43,16 @@ public class GuideService {
         return guide;
     }
     public List<Guide> allGuides(){
-        //check list is not empty
+        //check list is not empty if it is alert user
         List<Guide> guides = guideDAO.getAll();
         if(guides == null){
             throw new IllegalStateException("There are no guides");
         }
         return guides;
     }
+   public Guide guideById(Integer id){
+        //check if the guide exists
+        Guide guideExist = doesGuideExist(id);
+        return guideDAO.getById(id);
+   } 
 }
