@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping
 public class GuideController {
@@ -19,6 +21,11 @@ public class GuideController {
     public void addGuide(@RequestBody Guide guide){
         guideService.addGuide(guide);
     }
+    @RequestMapping("guides")
+    public List<Guide> getAllGuide(){
+       return guideService.allGuides();
+    }
+    
 
 
 }
