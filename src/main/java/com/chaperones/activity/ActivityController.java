@@ -1,5 +1,6 @@
 package com.chaperones.activity;
 
+import com.chaperones.user.User;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,5 +65,13 @@ public class ActivityController {
        activityService.deleteActivityById(deleteId);
     }
 
+    // ----------------------------------------------------------
+
+    // Get request method to get all the users booked on a given activity
+
+    @GetMapping(path = "activities/{id}/users")
+    public List<User> getAllUsersFromGivenActivity(@PathVariable("id") Integer id){
+       return activityService.getAllUsersFromGivenActivity(id);
+    }
 
 }

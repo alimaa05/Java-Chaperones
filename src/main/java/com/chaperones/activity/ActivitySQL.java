@@ -57,6 +57,8 @@ public class ActivitySQL implements ActivityDAO {
                 SELECT id, guide_id, venue_id, name, description, date, time, duration, price, capacity, cancelled
                 FROM activities
                 """;
+        //Result set (rs) - sets the result of the whole row
+        //RowNumber - how many rows there are - as long as there is a next row it will carry on then stops when there’s no more
         RowMapper<Activity> activityRowMapper = (rs, rowNum) ->
                 new Activity(
                         rs.getInt("id"),
@@ -73,6 +75,7 @@ public class ActivitySQL implements ActivityDAO {
                 );
 
 
+        //the 'sql' in parenthesis after  jdbcTemplate.query is the placeholder from String sql = """...
         return jdbcTemplate.query(sql, activityRowMapper);
 
     }
@@ -93,6 +96,7 @@ public class ActivitySQL implements ActivityDAO {
         // rs - everything between the green brackets - takes the result set
         // rowNum - argument you're passing in this case id
         try {
+            //QueryForObject - only returns one line
             return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
                     new Activity(
                             rs.getInt("id"),
@@ -106,6 +110,7 @@ public class ActivitySQL implements ActivityDAO {
                             rs.getDouble("price"),
                             rs.getInt("capacity"),
                             rs.getBoolean("cancelled")
+                    //Get it by that id we pass in (the argument we’re passing)
                     ), id);
 
         } catch (Exception e) {
@@ -126,7 +131,9 @@ public class ActivitySQL implements ActivityDAO {
                 WHERE id = ?
                 """;
 
-        // creating a new variable which is equal to the getbyId method- we want to update it by the id
+        // creating a new variable which is equal to the getbyId method- we want to update it by the right id (the one we're passing)
+        // Can’t call a method and then equal another method - need to create a placeholder
+        // id - show that this is the id and row we changed
         Activity original = getById(id);
 
         Integer newGuide_id = update.getGuide_id();
@@ -197,26 +204,48 @@ public class ActivitySQL implements ActivityDAO {
     // want a list of all the users
     public List<User> getAllUsersFromGivenActivity(Integer id) {
         String sql = """
-                SELECT id, name, phoneNumber, email
-                FROM users
+                SELECT users.id, users.name, users.phoneNumber, users.email
+                FROM ((users
                 INNER JOIN bookings
-                ON user.id = bookings.user_id
+                ON users.id = bookings.user_id)
                 INNER JOIN activities
-                ON bookings.activity_id = activities.id
-                WHERE activities_id = ?
+                ON bookings.activity_id = activities.id)
+                WHERE activity_id = ?
                 """;
 
-        RowMapper<User> userRowMapper = (rs, rowNum) ->
-            new User(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getString("phoneNumber"),
-                    rs.getString("email")
-            );
+//        SELECT user.userid, user.name, user.phoneNumber, activities.id
+//        FROM users
+//        INNER JOIN bookings
+//        ON user.id = bookings.user_id
+//        INNER JOIN activities
+//        ON bookings.activity_id = activities.id
+//        WHERE activities_id = ?
+//        """;
 
-        return jdbcTemplate.query(sql, userRowMapper, id);
+
+return jdbcTemplate.query(sql, (rs, rowNum) ->
+        new User(
+            rs.getInt("id"),
+            rs.getString("name"),
+            rs.getString("phoneNumber"),
+            rs.getString("email")
+
+        ), id);
 
 
-    }
+//        RowMapper<User> userRowMapper = (rs, rowNum) ->
+//            new User(
+//                    rs.getInt("id"),
+//                    rs.getString("name"),
+//                    rs.getString("phoneNumber"),
+//                    rs.getString("email")
+//            );
+//
+//        return jdbcTemplate.query(sql, userRowMapper, id);
+
+
+}
+
+// ----------------------------------------------------------
 
 }
