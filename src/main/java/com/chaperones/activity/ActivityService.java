@@ -22,7 +22,7 @@ public class ActivityService {
         Activity activity = activityDAO.getById(id);
         // if it doesn't exist then throw exception
         if (activity == null) {
-            throw new ActivityDoesNotExistException("Sorry, this activity does not exist");
+            throw new ActivityDoesNotExistException("Sorry, the activity with id " + id + " does not exist");
 
         }
         return activity;
@@ -39,23 +39,24 @@ public class ActivityService {
     // ----------------------------------------------------------
 
     // Method to add a new activity
-    public int addNewActivity (Activity activity){
+    public int addNewActivity(Activity activity) {
         // check if this activity already exists
 
-        // List of activities called checkActivities = to getAllActivities
-//        method above and will return list of all activities
+        // Creating a list of activities called checkActivities
+        // = to getAllActivities that's equal to the method above and will return list of all activities
         List<Activity> checkActivity = getAllActivities();
-        // for loop is looping through Activity object and want to loop through the list checkedActivities
-        for (Activity currentActivity:checkActivity) {
-            //
-            if (currentActivity.equals(activity)){
+
+        // for loop --> loop through the list checkedActivities and storing it in the placeholder 'currentActivity'
+        for (Activity currentActivity : checkActivity) {
+            // throw exception if 'currentActivity' is equal to the activity passed
+            if (currentActivity.equals(activity)) {
                 throw new IllegalStateException("Sorry, this activity already exists. Please try again!");
             }
         }
 
         int newActivity = activityDAO.add(activity);
 
-        if (newActivity != 1){
+        if (newActivity != 1) {
             throw new IllegalStateException("Sorry, this activity could not be added");
         }
 
@@ -66,7 +67,7 @@ public class ActivityService {
 
     // Method to get an activity by id
 
-    public Activity getActivityById(Integer id, Activity activity){
+    public Activity getActivityById(Integer id, Activity activity) {
 
         // check if the activity exists
         Activity checkActivity = getExistingActivityOrThrowException(id);
@@ -80,7 +81,35 @@ public class ActivityService {
     // ----------------------------------------------------------
 
 
+    // Method to delete an activity by id
 
+    public void deleteActivityById(Integer deleteId) {
+
+        Activity checkActivity = getExistingActivityOrThrowException(deleteId);
+
+        int deleteActivity = activityDAO.deleteById(deleteId);
+
+        if (deleteActivity != 1) {
+            throw new IllegalStateException("Sorry, the activity with id" + deleteId + " could not be deleted");
+        }
+
+
+    }
+
+    // ----------------------------------------------------------
+
+    // Method to update an activity by id
+
+    public void updateCarById(Integer id, Activity update) {
+        Activity checkActivity = getExistingActivityOrThrowException(id);
+
+        int updateId = activityDAO.updateById(id, update);
+
+        if (updateId != 1) {
+            throw new IllegalStateException("Sorry, activity with" + id + "could not be updated");
+        }
+
+    }
 
 
 }
