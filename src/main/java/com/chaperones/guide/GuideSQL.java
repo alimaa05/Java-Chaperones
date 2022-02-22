@@ -1,5 +1,6 @@
 package com.chaperones.guide;
 
+import com.chaperones.activity.Activity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -99,4 +100,34 @@ public class GuideSQL implements GuideDAO {
 
     }
 
+    //get all activities assigned to a guide
+    public List<Activity> guidesActivities(Integer id){
+        String sql = """
+                SELECT activities.id, activities.guide_id, activities.venue_id, activities.name, 
+                activities.description, activities.date, activities.time, activities.duration, 
+                activities.price, activities.capacity, activities.cancelled 
+                FROM activities 
+                INNER JOIN guides 
+                ON guides.id = activities.guide_id
+                """;
+
+        RowMapper<Activity> activityRowMapper = (rs, rowNum) -> {
+           Activity activities = new Activity(
+                    rs.getInt("id"),
+                    rs.getInt("guide_id"),
+                    rs.getInt("venue_id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getString("date"),
+                    rs.getString("time"),
+                    rs.getString("duration"),
+                    rs.getDouble("price"),
+                    rs.getInt("capacity"),
+                    rs.getBoolean("cancelled")
+            );
+           return activities;
+        };
+
+        return jdbcTemplate.query(sql, activityRowMapper, id);
+    }
 }

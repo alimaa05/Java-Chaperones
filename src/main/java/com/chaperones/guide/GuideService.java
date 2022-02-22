@@ -78,5 +78,5 @@ public class GuideService {
        }
         return deleted;
    }
-   //get all activities
+   //get all activities assigned to a guide
 }

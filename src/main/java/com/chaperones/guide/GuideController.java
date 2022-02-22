@@ -15,7 +15,7 @@ public class GuideController {
         this.guideService = guideService;
     }
 
-    @PostMapping("guide")
+    @PostMapping("guides")
     public void addGuide(@RequestBody Guide guide){
         guideService.addGuide(guide);
     }
@@ -24,17 +24,17 @@ public class GuideController {
        return guideService.allGuides();
     }
 
-    @GetMapping("guide/{id}")
+    @GetMapping("guides/{id}")
     public Guide getGuideById(@PathVariable("id") Integer guideId){
        return guideService.guideById(guideId);
     }
 
-    @DeleteMapping("guide/{id}")
+    @DeleteMapping("guides/{id}")
     public void deleteGuideById(@PathVariable("id") Integer guideId){
         guideService.deleteGuide(guideId);
     }
 
-    @PutMapping("guide/{id}")
+    @PutMapping("guides/{id}")
     public void updateGuideById(@RequestBody Guide guide, @PathVariable("id") Integer guideId){
         guideService.updateGuide(guideId, guide);
     }
