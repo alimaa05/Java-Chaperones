@@ -45,7 +45,6 @@ public class ActivitySQL implements ActivityDAO {
     }
 
 
-
     // ----------------------------------------------------------
 
     // Method for getting all the cars
@@ -76,7 +75,6 @@ public class ActivitySQL implements ActivityDAO {
     }
 
 
-
     // ----------------------------------------------------------
 
     // Method for getting an activity by the id
@@ -91,23 +89,27 @@ public class ActivitySQL implements ActivityDAO {
         //sql object - pass as string
         // rs - everything between the green brackets - takes the result set
         // rowNum - argument you're passing in this case id
-        return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
-                        new Activity(
-                                rs.getInt("id"),
-                                rs.getInt("guide_id"),
-                                rs.getInt("venue_id"),
-                                rs.getString("name"),
-                                rs.getString("description"),
-                                rs.getString("date"),
-                                rs.getString("time"),
-                                rs.getString("duration"),
-                                rs.getDouble("price"),
-                                rs.getInt("capacity"),
-                                rs.getBoolean("cancelled")
-                        ), id );
+        try {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+                    new Activity(
+                            rs.getInt("id"),
+                            rs.getInt("guide_id"),
+                            rs.getInt("venue_id"),
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getString("date"),
+                            rs.getString("time"),
+                            rs.getString("duration"),
+                            rs.getDouble("price"),
+                            rs.getInt("capacity"),
+                            rs.getBoolean("cancelled")
+                    ), id);
+
+        } catch (Exception e) {
+            return null;
+        }
 
     }
-
 
 
     // ----------------------------------------------------------
