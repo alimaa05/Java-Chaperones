@@ -4,6 +4,7 @@ import com.chaperones.activity.Activity;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -43,9 +44,20 @@ public class GuideController {
     //get all the activities assigned to a guide
     @GetMapping("guides/{id}/activities")
     public List<Activity> getGuidesActivities(@PathVariable("id")Integer guidesId){
-        return guideService.guidesActivities(guidesId);
+        List<Activity> allActivities = new ArrayList<>();
+        allActivities.addAll(guideService.guidesActivities(guidesId, false));
+        allActivities.addAll(guideService.guidesActivities(guidesId, true));
+        return allActivities;
     }
-
-
+    //get all the not cancelled activities assigned to a guide
+    @GetMapping("guides/{id}/activities")
+    public List<Activity> getGuidesAvailableActivities(@PathVariable("id")Integer guidesId){
+        return guideService.guidesActivities(guidesId, false);
+    }
+    //get all the cancelled activities assigned to a guide
+    @GetMapping("guides/{id}/activities")
+    public List<Activity> getGuidesCancelledActivities(@PathVariable("id")Integer guidesId){
+        return guideService.guidesActivities(guidesId, true);
+    }
 
 }

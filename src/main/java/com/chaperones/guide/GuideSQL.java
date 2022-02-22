@@ -24,7 +24,7 @@ public class GuideSQL implements GuideDAO {
                 VALUES(?,?,?) 
                 """;
         int rowsAffected = jdbcTemplate.update(
-                sql, guide.getId(),
+                sql,
                 guide.getName(),
                 guide.getPhoneNumber(),
                 guide.getEmail()
@@ -56,7 +56,7 @@ public class GuideSQL implements GuideDAO {
     public Guide getById(Integer id) {
         String sql = """
                 SELECT id, name, phoneNumber, email 
-                FROM guides""";
+                FROM guides WHERE id = ?""";
         try {
             return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
                     new Guide(rs.getInt("id"),
@@ -104,15 +104,14 @@ public class GuideSQL implements GuideDAO {
 
     //get all activities assigned to a guide
 
-    public List<Activity> allActivities(Integer id){
+    public List<Activity> allActivities(Integer id, boolean cancelled){
 
         String sql = """
-                SELECT activities.id, activities.guide_id, activities.venue_id, activities.name, 
-                activities.description, activities.date, activities.time, activities.duration, 
-                activities.price, activities.capacity, activities.cancelled 
+                SELECT id, guide_id, venue_id, name, 
+                description, date, time, duration, 
+                price, capacity, cancelled 
                 FROM activities 
-                INNER JOIN guides 
-                ON guides.id = activities.guide_id
+                WHERE guide_id = ? AND cancelled = ?
                 """;
 
         RowMapper<Activity> activityRowMapper = (rs, rowNum) -> {
@@ -132,6 +131,6 @@ public class GuideSQL implements GuideDAO {
             return activities;
         };
 
-        return jdbcTemplate.query(sql, activityRowMapper, id);
+        return jdbcTemplate.query(sql, activityRowMapper, id, cancelled);
     }
 }

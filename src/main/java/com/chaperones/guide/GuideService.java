@@ -52,8 +52,6 @@ public class GuideService {
         return guides;
     }
    public Guide guideById(Integer id){
-        //check if the guide exists
-        Guide guideExist = doesGuideExist(id);
         return guideDAO.getById(id);
    }
    public int updateGuide(Integer id, Guide guide){
@@ -80,9 +78,9 @@ public class GuideService {
         return deleted;
    }
    //get all activities assigned to a guide
-    public List<Activity> guidesActivities(Integer id){
+    public List<Activity> guidesActivities(Integer id, boolean cancelled){
         //check if the guide exists
         Guide guideExist = doesGuideExist(id);
-        return guideDAO.allActivities(id);
+        return guideDAO.allActivities(id, cancelled);
     }
 }

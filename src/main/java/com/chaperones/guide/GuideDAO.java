@@ -10,5 +10,5 @@ public interface GuideDAO {
     public Guide getById(Integer id);
     public int updateById(Integer id, Guide update);
     public int deleteById(Integer id);
-    public List<Activity> allActivities(Integer id);
+    public List<Activity> allActivities(Integer id, boolean cancelled);
 }
