@@ -1,6 +1,10 @@
 package com.chaperones.activity;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
+import java.util.SimpleTimeZone;
 
 public class Activity {
     private Integer id;
@@ -8,8 +12,8 @@ public class Activity {
     private Integer venue_id;
     private String name;
     private String description;
-    private String date;
-    private String time;
+    private LocalDate date;
+    private LocalTime time;
     private String duration;
     private Double price;
     private Integer capacity;
@@ -18,7 +22,7 @@ public class Activity {
 
 
 
-    public Activity(Integer id, Integer guide_id, Integer venue_id, String name, String description, String date, String time, String duration, Double price, Integer capacity, Boolean cancelled) {
+    public Activity(Integer id, Integer guide_id, Integer venue_id, String name, String description, LocalDate date, LocalTime time, String duration, Double price, Integer capacity, Boolean cancelled) {
         this.id = id;
         this.guide_id = guide_id;
         this.venue_id = venue_id;
@@ -72,19 +76,19 @@ public class Activity {
         this.description = description;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 
