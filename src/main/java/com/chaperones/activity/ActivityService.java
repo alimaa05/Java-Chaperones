@@ -39,7 +39,7 @@ public class ActivityService {
     // ----------------------------------------------------------
 
     // Method to add a new activity
-    public int addNewActivity(Activity activity) {
+    public void addNewActivity(Activity activity) {
         // check if this activity already exists
 
         // Creating a list of activities called checkActivities
@@ -59,8 +59,6 @@ public class ActivityService {
         if (newActivity != 1) {
             throw new IllegalStateException("Sorry, this activity could not be added");
         }
-
-        return newActivity;
     }
 
     // ----------------------------------------------------------
@@ -83,7 +81,7 @@ public class ActivityService {
     // Method to update an activity by id
 
     public void updateActivityById(Integer id, Activity update) {
-        Activity checkActivity = getExistingActivityOrThrowException(id);
+        //Activity checkActivity = getExistingActivityOrThrowException(id);
 
         int updateId = activityDAO.updateById(id, update);
 

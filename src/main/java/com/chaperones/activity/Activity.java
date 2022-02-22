@@ -8,7 +8,7 @@ public class Activity {
     private Integer venue_id;
     private String name;
     private String description;
-    private String date;
+    private LocalDate date;
     private String time;
     private String duration;
     private Double price;

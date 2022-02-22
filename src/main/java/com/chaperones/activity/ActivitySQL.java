@@ -24,7 +24,7 @@ public class ActivitySQL implements ActivityDAO {
     public int add(Activity activity) {
         String sql = """
                 INSERT INTO activities (guide_id, venue_id, name, description, date, time, duration, price, capacity)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
         int rowAffected = jdbcTemplate.update(
@@ -119,7 +119,7 @@ public class ActivitySQL implements ActivityDAO {
     public int updateById(Integer id, Activity update) {
         String sql = """
                 UPDATE activities
-                SET (guide_id, venue_id, name, description, date, time, duration, price, capacity, cancelled) = (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                SET (guide_id, venue_id, name, description, date, time, duration, price, capacity, cancelled)=(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 WHERE id = ?
                 """;
 
@@ -169,8 +169,8 @@ public class ActivitySQL implements ActivityDAO {
                 newDuration,
                 newPrice,
                 newCapacity,
-                newCancelled
-
+                newCancelled,
+                id
         );
 
     }
