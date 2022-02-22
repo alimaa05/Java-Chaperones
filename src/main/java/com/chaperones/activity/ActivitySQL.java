@@ -21,16 +21,16 @@ public class ActivitySQL implements ActivityDAO {
 
     // Method to add an activity
     @Override
-    public int add(Activity activity, Guide guide, Venue venue) {
+    public int add(Activity activity) {
         String sql = """
                 INSERT INTO activities (guide_id, venue_id, name, description, date, time, duration, price, capacity)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
         int rowAffected = jdbcTemplate.update(
                 sql,
-                guide.getId(),
-                venue.getId(),
+                activity.getGuide_id(),
+                activity.getVenue_id(),
                 activity.getName(),
                 activity.getDescription(),
                 activity.getDate(),
@@ -44,7 +44,7 @@ public class ActivitySQL implements ActivityDAO {
 
     }
 
-    ;
+
 
     // ----------------------------------------------------------
 
@@ -52,12 +52,14 @@ public class ActivitySQL implements ActivityDAO {
     @Override
     public List<Activity> getAll() {
         String sql = """
-                SELECT id, name, description, date, time, duration, price, capacity, cancelled
+                SELECT id, guide_id, venue_id, name, description, date, time, duration, price, capacity, cancelled
                 FROM activities
                 """;
         RowMapper<Activity> activityRowMapper = (rs, rowNum) ->
                 new Activity(
                         rs.getInt("id"),
+                        rs.getInt("guide_id"),
+                        rs.getInt("venue_id"),
                         rs.getString("name"),
                         rs.getString("description"),
                         rs.getString("date"),
@@ -73,7 +75,7 @@ public class ActivitySQL implements ActivityDAO {
 
     }
 
-    ;
+
 
     // ----------------------------------------------------------
 
@@ -81,7 +83,7 @@ public class ActivitySQL implements ActivityDAO {
     @Override
     public Activity getById(Integer id) {
         String sql = """
-                SELECT id, name, description, date, time, duration, price, capacity, cancelled
+                SELECT id, guide_id, venue_id, name, description, date, time, duration, price, capacity, cancelled
                 FROM activities
                 WHERE id = ?
                 """;
@@ -92,6 +94,8 @@ public class ActivitySQL implements ActivityDAO {
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
                         new Activity(
                                 rs.getInt("id"),
+                                rs.getInt("guide_id"),
+                                rs.getInt("venue_id"),
                                 rs.getString("name"),
                                 rs.getString("description"),
                                 rs.getString("date"),
@@ -100,14 +104,11 @@ public class ActivitySQL implements ActivityDAO {
                                 rs.getDouble("price"),
                                 rs.getInt("capacity"),
                                 rs.getBoolean("cancelled")
-                        ),
-                id
-
-        );
+                        ), id );
 
     }
 
-    ;
+
 
     // ----------------------------------------------------------
 
@@ -116,12 +117,18 @@ public class ActivitySQL implements ActivityDAO {
     public int updateById(Integer id, Activity update) {
         String sql = """
                 UPDATE activities
-                SET (name, description, date, time, duration, price, capacity, cancelled) = (?, ?, ?, ?, ?, ?, ?, ?)
+                SET (guide_id, venue_id, name, description, date, time, duration, price, capacity, cancelled) = (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 WHERE id = ?
                 """;
 
         // creating a new variable which is equal to the getbyId method- we want to update it by the id
         Activity original = getById(id);
+
+        Integer newGuide_id = update.getGuide_id();
+        if (newGuide_id == null) newGuide_id = original.getGuide_id();
+
+        Integer newVenue_id = update.getVenue_id();
+        if (newVenue_id == null) newVenue_id = original.getVenue_id();
 
         // create a variable called newName that is equal to updated name entered
         String newName = update.getName();
@@ -151,6 +158,8 @@ public class ActivitySQL implements ActivityDAO {
 
         // returning the variables made above
         return jdbcTemplate.update(sql,
+                newGuide_id,
+                newVenue_id,
                 newName,
                 newDescription,
                 newDate,
@@ -162,7 +171,7 @@ public class ActivitySQL implements ActivityDAO {
 
         );
 
-    };
+    }
 
     // ----------------------------------------------------------
 
