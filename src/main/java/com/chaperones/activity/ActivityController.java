@@ -1,17 +1,46 @@
 package com.chaperones.activity;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-//@RestController
-//public class ActivityController {
+import java.util.List;
 
-//    private ActivityService activityService;
+@RestController
+public class ActivityController {
 
-//   public ActivityController
-//}
-//
+    private ActivityService activityService;
+
+   public ActivityController (ActivityService activityService){
+       this.activityService = activityService;
+   }
+
+    // ----------------------------------------------------------
+
+   // Get request method to get all activities
+
+    @GetMapping(path = "activities")
+
+    public List<Activity> getActivities(){
+       return activityService.getAllActivities();
+    }
+
+    // ----------------------------------------------------------
+
+    // Post method to add new activity
+
+    @PostMapping(path = "activities")
+
+    public void addActivity(@RequestBody Activity activity){
+        activityService.addNewActivity(activity);
+    }
+
+    // ----------------------------------------------------------
+
+}
+
+
+
+
+
 //@PostMapping (path = "activities/{guide_id}/{venue_id}")
 //
 //@PostMapping (path = "activities/")
