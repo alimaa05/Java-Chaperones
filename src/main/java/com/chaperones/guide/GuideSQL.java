@@ -54,12 +54,16 @@ public class GuideSQL implements GuideDAO {
         String sql = """
                 SELECT id, name, phoneNumber, email 
                 FROM guides""";
-        return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
-                new Guide(rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("phoneNumber"),
-                        rs.getString("email")
-                ), id);
+        try {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+                    new Guide(rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getString("phoneNumber"),
+                            rs.getString("email")
+                    ), id);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
