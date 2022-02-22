@@ -18,7 +18,7 @@ public class VenueService {
         int result = venueDAO.add(venue);
 
         if (result != 1) {
-            throw new IllegalStateException("Could not add venue...");
+            throw new IllegalStateException("Venue could not be added");
         }
     }
 
@@ -29,32 +29,31 @@ public class VenueService {
     public Venue getVenueById(Integer id) {
         Venue selected = venueDAO.getById(id);
         if (selected == null){
-            throw new IllegalStateException("could not find venue..."); //todo VenueNotFoundException?
+            throw new VenueNotFoundException("Venues could not be found");
         } else return selected;
     }
 
     public void updateVenueById(Integer id, Venue venue) {
         if (venueDAO.getById(id) == null) {
-            throw new IllegalStateException("could not find venue...");
+            throw new VenueNotFoundException("Venue with id " + id + " could not found");
         }
 
         int result = venueDAO.updateById(id, venue);
 
         if (result != 1) {
-            throw new IllegalStateException("Could not update venue...");
+            throw new IllegalStateException("Venue with id " + id + " could not updated");
         }
     }
 
     public void deleteVenueById(Integer id) {
         if (venueDAO.getById(id) == null) {
-            throw new IllegalStateException("could not find venue...");
+            throw new VenueNotFoundException("Venue with id " + id + " could not found");
         }
 
         int result = venueDAO.deleteById(id);
 
         if (result != 1) {
-            throw new IllegalStateException("Could not delete venue...");
+            throw new IllegalStateException("Venue with id " + id + " could not deleted");
         }
     }
-
 }
