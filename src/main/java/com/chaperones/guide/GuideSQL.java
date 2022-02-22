@@ -5,6 +5,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository("guidePostgres")
@@ -120,8 +122,8 @@ public class GuideSQL implements GuideDAO {
                     rs.getInt("venue_id"),
                     rs.getString("name"),
                     rs.getString("description"),
-                    rs.getString("date"),
-                    rs.getString("time"),
+                    LocalDate.parse(rs.getString("date")),
+                    LocalTime.parse(rs.getString("time")),
                     rs.getString("duration"),
                     rs.getDouble("price"),
                     rs.getInt("capacity"),
