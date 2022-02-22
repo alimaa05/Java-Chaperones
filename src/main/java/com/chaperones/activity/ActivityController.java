@@ -66,12 +66,3 @@ public class ActivityController {
 
 
 }
-
-
-
-
-
-//@PostMapping (path = "activities/{guide_id}/{venue_id}")
-//
-//@PostMapping (path = "activities/")
-//@RequestParam
