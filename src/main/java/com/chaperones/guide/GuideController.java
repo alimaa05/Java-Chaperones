@@ -39,6 +39,8 @@ public class GuideController {
     public void updateGuideById(@RequestBody Guide guide, @PathVariable("id") Integer guideId){
         guideService.updateGuide(guideId, guide);
     }
+
+    //get all the activities assigned to a guide
     @GetMapping("guides/{id}/activities")
     public List<Activity> getGuidesActivities(@PathVariable("id")Integer guidesId){
         return guideService.guidesActivities(guidesId);
