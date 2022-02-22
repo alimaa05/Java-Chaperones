@@ -8,6 +8,8 @@ import com.chaperones.guide.Guide;
 import com.chaperones.venue.Venue;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository("activitiesPostgres")
@@ -61,8 +63,8 @@ public class ActivitySQL implements ActivityDAO {
                         rs.getInt("venue_id"),
                         rs.getString("name"),
                         rs.getString("description"),
-                        rs.getString("date"),
-                        rs.getString("time"),
+                        LocalDate.parse(rs.getString("date")),
+                        LocalTime.parse(rs.getString("time")),
                         rs.getString("duration"),
                         rs.getDouble("price"),
                         rs.getInt("capacity"),
@@ -97,8 +99,8 @@ public class ActivitySQL implements ActivityDAO {
                             rs.getInt("venue_id"),
                             rs.getString("name"),
                             rs.getString("description"),
-                            rs.getString("date"),
-                            rs.getString("time"),
+                            LocalDate.parse(rs.getString("date")),
+                            LocalTime.parse(rs.getString("time")),
                             rs.getString("duration"),
                             rs.getDouble("price"),
                             rs.getInt("capacity"),
@@ -140,10 +142,10 @@ public class ActivitySQL implements ActivityDAO {
         String newDescription = update.getDescription();
         if (newDescription == null) newDescription = original.getDescription();
 
-        String newDate = update.getDate();
+        LocalDate newDate = update.getDate();
         if (newDate == null) newDate = original.getDate();
 
-        String newTime = update.getTime();
+        LocalTime newTime = update.getTime();
         if (newTime == null) newTime = original.getTime();
 
         String newDuration = update.getDuration();

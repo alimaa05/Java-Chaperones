@@ -4,7 +4,12 @@ import com.chaperones.activity.Activity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+<<<<<<< HEAD
 import java.sql.Types;
+=======
+import java.time.LocalDate;
+import java.time.LocalTime;
+>>>>>>> 14a61d88eb4cc0380f6e7d7040071b03a6e0b002
 import java.util.List;
 
 @Repository("venuePostgres")
@@ -54,8 +59,8 @@ public class VenueSQL implements VenueDAO {
                 rs.getInt("venue_id"),
                 rs.getString("name"),
                 rs.getString("description"),
-                rs.getString("date"),
-                rs.getString("time"),
+                LocalDate.parse(rs.getString("date")),
+                LocalTime.parse(rs.getString("time")),
                 rs.getString("duration"),
                 rs.getDouble("price"),
                 rs.getInt("capacity"),

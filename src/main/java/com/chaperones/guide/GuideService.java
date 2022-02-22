@@ -1,6 +1,7 @@
 package com.chaperones.guide;
 
 
+import com.chaperones.activity.Activity;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -78,5 +79,10 @@ public class GuideService {
        }
         return deleted;
    }
-   //get all activities
+   //get all activities assigned to a guide
+    public List<Activity> guidesActivities(Integer id){
+        //check if the guide exists
+        Guide guideExist = doesGuideExist(id);
+        return guideDAO.allActivities(id);
+    }
 }

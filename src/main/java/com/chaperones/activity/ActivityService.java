@@ -80,10 +80,10 @@ public class ActivityService {
 
     // Method to update an activity by id
 
-    public void updateActivityById(Integer id, Activity update) {
-        //Activity checkActivity = getExistingActivityOrThrowException(id);
+    public void updateActivityById(Integer id, Activity activity) {
+        Activity checkActivity = getExistingActivityOrThrowException(id);
 
-        int updateId = activityDAO.updateById(id, update);
+        int updateId = activityDAO.updateById(id, activity);
 
         if (updateId != 1) {
             throw new IllegalStateException("Sorry, activity with id " + id + " could not be updated");
