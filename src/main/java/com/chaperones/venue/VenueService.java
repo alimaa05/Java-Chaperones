@@ -35,18 +35,23 @@ public class VenueService {
         return venueDAO.getAll();
     }
 
-    public List<Activity> getAllActivitiesAtVenue(Integer id) {
+    public List<Activity> getActivitiesAtVenue(Integer id, boolean cancelled) {
         if (venueDAO.getById(id) == null) {
             throw new VenueNotFoundException("Venue with id " + id + " could not be found");
         }
 
-        return venueDAO.getAllActivities(id);
+        return venueDAO.getActivities(id, cancelled);
     }
 
     public Venue getVenueById(Integer id) {
+//        try {
+//            return venueDAO.getById(id);
+//        } catch (VenueNotFoundException e) {
+//            throw new VenueNotFoundException("Venue with id " + id + " could not be found");
+//        }
         Venue selected = venueDAO.getById(id);
         if (selected == null){
-            throw new VenueNotFoundException("Venues could not be found");
+            throw new VenueNotFoundException("Venue with id " + id + " could not be found");
         } else return selected;
     }
 

@@ -42,9 +42,9 @@ public class VenueSQL implements VenueDAO {
         );
     }
 
-    public List<Activity> getAllActivities(Integer id) {
+    public List<Activity> getActivities(Integer id, boolean cancelled) {
 
-        String sql = "SELECT id, guide_id, venue_id, name, description, date, time, duration, price, capacity, cancelled FROM activities WHERE venue_id = ?";
+        String sql = "SELECT id, guide_id, venue_id, name, description, date, time, duration, price, capacity, cancelled FROM activities WHERE venue_id = ? AND cancelled = ?";
 
         return jdbcTemplate.query(sql, (rs, rowNum) ->
             new Activity(
@@ -60,12 +60,13 @@ public class VenueSQL implements VenueDAO {
                 rs.getInt("capacity"),
                 rs.getBoolean("cancelled")
             ),
-            id
+            id,
+            cancelled
         );
     }
 
     @Override
-    public Venue getById(Integer id) {
+    public Venue getById(Integer id) throws VenueNotFoundException {
 
         String sql = "SELECT id, name, area, address FROM venues WHERE id = ?";
 
