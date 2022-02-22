@@ -1,5 +1,6 @@
 package com.chaperones.guide;
 
+import com.chaperones.activity.Activity;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,11 @@ public class GuideController {
     public void updateGuideById(@RequestBody Guide guide, @PathVariable("id") Integer guideId){
         guideService.updateGuide(guideId, guide);
     }
+    @GetMapping("guides/{id}/activities")
+    public List<Activity> getGuidesActivities(@PathVariable("id")Integer guidesId){
+        return guideService.guidesActivities(guidesId);
+    }
+
 
 
 }

@@ -11,16 +11,16 @@ import java.util.List;
 public class GuideSQL implements GuideDAO {
     private JdbcTemplate jdbcTemplate;
 
-    public GuideSQL(JdbcTemplate jdbcTemplate){
+    public GuideSQL(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public int add(Guide guide) {
         String sql = """
-            INSERT INTO guides(name, phoneNumber, email) 
-            VALUES(?,?,?) 
-            """;
+                INSERT INTO guides(name, phoneNumber, email) 
+                VALUES(?,?,?) 
+                """;
         int rowsAffected = jdbcTemplate.update(
                 sql, guide.getId(),
                 guide.getName(),
@@ -69,26 +69,26 @@ public class GuideSQL implements GuideDAO {
 
     @Override
     public int updateById(Integer id, Guide update) {
-            String sql = """
-                    UPDATE guides SET(name, phoneNumber, email) = (?, ?, ?) WHERE id = ?""";
-            Guide original = getById(id);
+        String sql = """
+                UPDATE guides SET(name, phoneNumber, email) = (?, ?, ?) WHERE id = ?""";
+        Guide original = getById(id);
 
-            String newName = update.getName();
-            if(newName == null){
-                newName = original.getName();
-            }
-            String newPhone = update.getPhoneNumber();
-            if(newPhone == null){
-                newPhone = original.getPhoneNumber();
-            }
-            String newEmail = update.getEmail();
-            if(newEmail == null) {
-                newEmail = original.getEmail();
-            }
-            //this is the number of rows affected it is returning which is an integer
+        String newName = update.getName();
+        if (newName == null) {
+            newName = original.getName();
+        }
+        String newPhone = update.getPhoneNumber();
+        if (newPhone == null) {
+            newPhone = original.getPhoneNumber();
+        }
+        String newEmail = update.getEmail();
+        if (newEmail == null) {
+            newEmail = original.getEmail();
+        }
+        //this is the number of rows affected it is returning which is an integer
         // id is on the end as that is how we are identifying the row we want to change
-            int updated = jdbcTemplate.update(sql, newName, newPhone, newEmail, id);
-            return updated;
+        int updated = jdbcTemplate.update(sql, newName, newPhone, newEmail, id);
+        return updated;
     }
 
 
@@ -101,7 +101,9 @@ public class GuideSQL implements GuideDAO {
     }
 
     //get all activities assigned to a guide
-    public List<Activity> guidesActivities(Integer id){
+
+    public List<Activity> allActivities(Integer id){
+
         String sql = """
                 SELECT activities.id, activities.guide_id, activities.venue_id, activities.name, 
                 activities.description, activities.date, activities.time, activities.duration, 
@@ -112,7 +114,7 @@ public class GuideSQL implements GuideDAO {
                 """;
 
         RowMapper<Activity> activityRowMapper = (rs, rowNum) -> {
-           Activity activities = new Activity(
+            Activity activities = new Activity(
                     rs.getInt("id"),
                     rs.getInt("guide_id"),
                     rs.getInt("venue_id"),
@@ -125,7 +127,7 @@ public class GuideSQL implements GuideDAO {
                     rs.getInt("capacity"),
                     rs.getBoolean("cancelled")
             );
-           return activities;
+            return activities;
         };
 
         return jdbcTemplate.query(sql, activityRowMapper, id);
