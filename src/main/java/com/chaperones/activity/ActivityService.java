@@ -67,7 +67,7 @@ public class ActivityService {
 
     // Method to get an activity by id
 
-    public Activity getActivityById(Integer id, Activity activity) {
+    public Activity getActivityById(Integer id) {
 
         // check if the activity exists
         Activity checkActivity = getExistingActivityOrThrowException(id);

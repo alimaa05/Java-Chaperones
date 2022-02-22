@@ -1,5 +1,6 @@
 package com.chaperones.activity;
 
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class ActivityController {
 
     @GetMapping(path = "activities")
 
-    public List<Activity> getActivities(){
+    public List<Activity> getAllActivities(){
        return activityService.getAllActivities();
     }
 
@@ -29,12 +30,21 @@ public class ActivityController {
 
     @PostMapping(path = "activities")
 
-    public void addActivity(@RequestBody Activity activity){
+    public void addNewActivity(@RequestBody Activity activity){
         activityService.addNewActivity(activity);
     }
 
     // ----------------------------------------------------------
 
+    // Get request method to get an activity with specific id
+
+    @GetMapping(path = "activities/{id}")
+
+    public Activity getActivityById(@PathVariable("id") Integer id){
+       return activityService.getActivityById(id);
+    }
+
+    // ----------------------------------------------------------
 }
 
 
