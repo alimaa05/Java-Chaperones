@@ -42,4 +42,8 @@ public class GuideService {
         }
         return guide;
     }
+    public List<Guide> allGuides(){
+        //check
+        return guideDAO.getAll();
+    }
 }
