@@ -66,19 +66,23 @@ public class VenueSQL implements VenueDAO {
     }
 
     @Override
-    public Venue getById(Integer id) throws VenueNotFoundException {
+    public Venue getById(Integer id) {
 
         String sql = "SELECT id, name, area, address FROM venues WHERE id = ?";
 
-        return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
-            new Venue(
-                rs.getInt("id"),
-                rs.getString("name"),
-                rs.getString("area"),
-                rs.getString("address")
-            ),
-            id
-        );
+        try {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+                new Venue(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("area"),
+                        rs.getString("address")
+                ),
+                id
+            );
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

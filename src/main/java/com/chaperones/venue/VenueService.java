@@ -44,11 +44,6 @@ public class VenueService {
     }
 
     public Venue getVenueById(Integer id) {
-//        try {
-//            return venueDAO.getById(id);
-//        } catch (VenueNotFoundException e) {
-//            throw new VenueNotFoundException("Venue with id " + id + " could not be found");
-//        }
         Venue selected = venueDAO.getById(id);
         if (selected == null){
             throw new VenueNotFoundException("Venue with id " + id + " could not be found");
