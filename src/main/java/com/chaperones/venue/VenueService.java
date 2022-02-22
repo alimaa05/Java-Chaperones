@@ -22,12 +22,11 @@ public class VenueService {
             if (getVenueById.getName().equals(venue.getName())) {
                 throw new IllegalStateException("Venue already exists");
             }
+        }
+        int result = venueDAO.add(venue);
 
-            int result = venueDAO.add(venue);
-
-            if (result != 1) {
-                throw new IllegalStateException("Venue could not be added");
-            }
+        if (result != 1) {
+            throw new IllegalStateException("Venue could not be added");
         }
     }
 
