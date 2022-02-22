@@ -1,6 +1,7 @@
 package com.chaperones.activity;
 
 
+import com.chaperones.user.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -186,6 +187,35 @@ public class ActivitySQL implements ActivityDAO {
                 """;
 
         return jdbcTemplate.update(sql, id);
+
+    }
+
+    // ----------------------------------------------------------
+
+    // Method to get all the users booked on a given activity
+
+    // want a list of all the users
+    public List<User> getAllUsersFromGivenActivity(Integer id) {
+        String sql = """
+                SELECT id, name, phoneNumber, email
+                FROM users
+                INNER JOIN bookings
+                ON user.id = bookings.user_id
+                INNER JOIN activities
+                ON bookings.activity_id = activities.id
+                WHERE activities_id = ?
+                """;
+
+        RowMapper<User> userRowMapper = (rs, rowNum) ->
+            new User(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("phoneNumber"),
+                    rs.getString("email")
+            );
+
+        return jdbcTemplate.query(sql, userRowMapper, id);
+
 
     }
 
