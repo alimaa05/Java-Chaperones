@@ -69,4 +69,13 @@ public class GuideService {
        }
         return updated;
    }
+   public int deleteGuide(Integer id){
+       //check if the guide exists
+       Guide guideExist = doesGuideExist(id);
+       int deleted = guideDAO.deleteById(id);
+       if(deleted != 1){
+           throw new IllegalStateException("Unable to delete this guide");
+       }
+        return deleted;
+   }
 }
