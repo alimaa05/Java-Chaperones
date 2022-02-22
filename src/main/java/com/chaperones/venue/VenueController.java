@@ -1,5 +1,6 @@
 package com.chaperones.venue;
 
+import com.chaperones.activity.Activity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,11 @@ public class VenueController {
     @GetMapping(path = "venues/{id}")
     public Venue getVenueById(@PathVariable("id") Integer id) {
         return venueService.getVenueById(id);
+    }
+
+    @GetMapping(path = "venues/{id}/activities")
+    public List<Activity> getAllActivitiesAtVenue(@PathVariable("id") Integer id) {
+        return venueService.getAllActivitiesAtVenue(id);
     }
 
     @PutMapping(path = "venues/{id}")

@@ -1,5 +1,6 @@
 package com.chaperones.venue;
 
+import com.chaperones.activity.Activity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -38,6 +39,28 @@ public class VenueSQL implements VenueDAO {
                 rs.getString("area"),
                 rs.getString("address")
             )
+        );
+    }
+
+    public List<Activity> getAllActivities(Integer id) {
+
+        String sql = "SELECT id, guide_id, venue_id, name, description, date, time, duration, price, capacity, cancelled FROM activities WHERE venue_id = ?";
+
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+            new Activity(
+                rs.getInt("id"),
+                rs.getInt("guide_id"),
+                rs.getInt("venue_id"),
+                rs.getString("name"),
+                rs.getString("description"),
+                rs.getString("date"),
+                rs.getString("time"),
+                rs.getString("duration"),
+                rs.getDouble("price"),
+                rs.getInt("capacity"),
+                rs.getBoolean("cancelled")
+            ),
+            id
         );
     }
 

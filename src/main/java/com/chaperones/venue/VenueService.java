@@ -1,5 +1,6 @@
 package com.chaperones.venue;
 
+import com.chaperones.activity.Activity;
 import com.chaperones.user.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,14 @@ public class VenueService {
 
     public List<Venue> getAllVenues() {
         return venueDAO.getAll();
+    }
+
+    public List<Activity> getAllActivitiesAtVenue(Integer id) {
+        if (venueDAO.getById(id) == null) {
+            throw new VenueNotFoundException("Venue with id " + id + " could not be found");
+        }
+
+        return venueDAO.getAllActivities(id);
     }
 
     public Venue getVenueById(Integer id) {
