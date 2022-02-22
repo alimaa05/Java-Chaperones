@@ -52,7 +52,10 @@ public class GuideService {
         return guides;
     }
    public Guide guideById(Integer id){
-        return guideDAO.getById(id);
+       Guide selected = guideDAO.getById(id);
+        if (selected == null) {
+           throw new GuideDoesNotExistException("This guide does not exist");
+       } else return selected;
    }
    public int updateGuide(Integer id, Guide guide){
        //check if the guide exists if they do not throw exception saying so
