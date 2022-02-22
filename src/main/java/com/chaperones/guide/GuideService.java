@@ -43,7 +43,11 @@ public class GuideService {
         return guide;
     }
     public List<Guide> allGuides(){
-        //check
-        return guideDAO.getAll();
+        //check list is not empty
+        List<Guide> guides = guideDAO.getAll();
+        if(guides == null){
+            throw new IllegalStateException("There are no guides");
+        }
+        return guides;
     }
 }
