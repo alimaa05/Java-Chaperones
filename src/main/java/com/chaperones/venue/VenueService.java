@@ -35,25 +35,25 @@ public class VenueService {
 
     public void updateVenueById(Integer id, Venue venue) {
         if (venueDAO.getById(id) == null) {
-            throw new VenueNotFoundException("Venue with id " + id + " could not found");
+            throw new VenueNotFoundException("Venue with id " + id + " could not be found");
         }
 
         int result = venueDAO.updateById(id, venue);
 
         if (result != 1) {
-            throw new IllegalStateException("Venue with id " + id + " could not updated");
+            throw new IllegalStateException("Venue with id " + id + " could not be updated");
         }
     }
 
     public void deleteVenueById(Integer id) {
         if (venueDAO.getById(id) == null) {
-            throw new VenueNotFoundException("Venue with id " + id + " could not found");
+            throw new VenueNotFoundException("Venue with id " + id + " could not be found");
         }
 
         int result = venueDAO.deleteById(id);
 
         if (result != 1) {
-            throw new IllegalStateException("Venue with id " + id + " could not deleted");
+            throw new IllegalStateException("Venue with id " + id + " could not be deleted");
         }
     }
 }
