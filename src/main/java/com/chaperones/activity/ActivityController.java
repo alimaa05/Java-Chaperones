@@ -45,6 +45,26 @@ public class ActivityController {
     }
 
     // ----------------------------------------------------------
+
+    // put request method to update an activity by id
+    @PutMapping(path = "activities/{id}")
+
+    public void updateActivityById(@PathVariable("id") Integer id, @RequestBody Activity update){
+        activityService.updateActivityById(id, update);
+
+    }
+
+    // ----------------------------------------------------------
+
+    // delete request method to delete an activity by id
+
+    @DeleteMapping(path = "activities/{id}")
+
+    public void deleteActivityById(@PathVariable("id") Integer deleteId){
+       activityService.deleteActivityById(deleteId);
+    }
+
+
 }
 
 
