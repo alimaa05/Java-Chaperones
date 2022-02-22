@@ -43,6 +43,11 @@ public class VenueController {
         return venueService.getActivitiesAtVenue(id, false);
     }
 
+    @GetMapping(path = "venues/{id}/activities/cancelled")
+    public List<Activity> getCancelledActivitiesAtVenue(@PathVariable("id") Integer id) {
+        return venueService.getActivitiesAtVenue(id, true);
+    }
+
     @PutMapping(path = "venues/{id}")
     public void updateVenueById(@PathVariable("id") Integer id, @RequestBody Venue update) {
         venueService.updateVenueById(id, update);
