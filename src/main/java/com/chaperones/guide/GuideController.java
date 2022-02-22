@@ -1,9 +1,7 @@
 package com.chaperones.guide;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.relational.core.sql.In;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +23,10 @@ public class GuideController {
     public List<Guide> getAllGuide(){
        return guideService.allGuides();
     }
-    
 
+    @GetMapping("guide/{id}")
+    public Guide getGuideById(@PathVariable("id") Integer guideId){
+       return guideService.guideById(guideId);
+    }
 
 }
