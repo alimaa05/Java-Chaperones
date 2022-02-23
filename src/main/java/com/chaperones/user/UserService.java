@@ -1,6 +1,7 @@
 package com.chaperones.user;
 
 import com.chaperones.activity.Activity;
+import com.chaperones.activity.ActivityDoesNotExistException;
 import com.chaperones.venue.VenueNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -71,5 +72,21 @@ public class UserService {
         if (result != 1) {
             throw new IllegalStateException("User with id " + id + " could not be deleted");
         }
+    }
+
+    public void addUserToActivity(Integer user_id, Activity activity){
+        if (userDAO.getById(user_id) == null) {
+            throw new UserNotFoundException("User with id " + user_id + " could not found");
+        }
+
+        int freeSpaces = activity.getCapacity() - userDAO.getNumberOfBookings(activity.getId());
+
+        if (freeSpaces > 0) {
+            userDAO.addUserToActivity(user_id, activity.getId());
+        }
+        else {
+            throw new IllegalStateException("This activity is full.");
+        }
+
     }
 }
