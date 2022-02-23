@@ -64,7 +64,7 @@ public class UserController {
         userService.addUserToActivity(user_id, activity);
     }
 
-    @DeleteMapping(path = "user/{user_id}/activities/{activity_id}")
+    @DeleteMapping(path = "users/{user_id}/activities/{activity_id}")
     public int deleteUserFromActivity(@PathVariable("user_id") Integer user_id, @PathVariable Integer activity_id) {
        return userService.removeUserFromActivity(user_id, activity_id);
     }
