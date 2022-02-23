@@ -16,10 +16,7 @@ public class UserSQL implements UserDAO {
 
     @Override
         public int add(User user) {
-        String sql = """
-                INSERT INTO users (name, phoneNumber, email)
-                VALUES(?, ?, ?)
-                """;
+        String sql = "INSERT INTO users (name, phoneNumber, email) VALUES(?, ?, ?)";
         int rowsAffected = jdbcTemplate.update(
                 sql,
                 user.getName(),
