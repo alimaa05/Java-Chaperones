@@ -1,7 +1,6 @@
 package com.chaperones.activity;
 
 import com.chaperones.user.User;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,18 +10,18 @@ public class ActivityController {
 
     private ActivityService activityService;
 
-   public ActivityController (ActivityService activityService){
-       this.activityService = activityService;
-   }
+    public ActivityController(ActivityService activityService) {
+        this.activityService = activityService;
+    }
 
     // ----------------------------------------------------------
 
-   // Get request method to get all activities
+    // Get request method to get all activities
 
     @GetMapping(path = "activities")
 
-    public List<Activity> getAllActivities(){
-       return activityService.getAllActivities();
+    public List<Activity> getAllActivities() {
+        return activityService.getAllActivities();
     }
 
     // ----------------------------------------------------------
@@ -31,7 +30,7 @@ public class ActivityController {
 
     @PostMapping(path = "activities")
 
-    public void addNewActivity(@RequestBody Activity activity){
+    public void addNewActivity(@RequestBody Activity activity) {
         activityService.addNewActivity(activity);
     }
 
@@ -41,8 +40,8 @@ public class ActivityController {
 
     @GetMapping(path = "activities/{id}")
 
-    public Activity getActivityById(@PathVariable("id") Integer id){
-       return activityService.getActivityById(id);
+    public Activity getActivityById(@PathVariable("id") Integer id) {
+        return activityService.getActivityById(id);
     }
 
     // ----------------------------------------------------------
@@ -50,7 +49,7 @@ public class ActivityController {
     // put request method to update an activity by id
     @PutMapping(path = "activities/{id}")
 
-    public void updateActivityById(@PathVariable("id") Integer id, @RequestBody Activity update){
+    public void updateActivityById(@PathVariable("id") Integer id, @RequestBody Activity update) {
         activityService.updateActivityById(id, update);
 
     }
@@ -61,8 +60,8 @@ public class ActivityController {
 
     @DeleteMapping(path = "activities/{id}")
 
-    public void deleteActivityById(@PathVariable("id") Integer deleteId){
-       activityService.deleteActivityById(deleteId);
+    public void deleteActivityById(@PathVariable("id") Integer deleteId) {
+        activityService.deleteActivityById(deleteId);
     }
 
     // ----------------------------------------------------------
@@ -70,11 +69,18 @@ public class ActivityController {
     // Get request method to get all the users booked on a given activity
 
     @GetMapping(path = "activities/{id}/users")
-    public List<User> getAllUsersFromGivenActivity(@PathVariable("id") Integer id){
-       return activityService.getAllUsersFromGivenActivity(id);
+    public List<User> getAllUsersFromGivenActivity(@PathVariable("id") Integer id) {
+        return activityService.getAllUsersFromGivenActivity(id);
     }
 
     // ----------------------------------------------------------
-    //  Get request method to check if activity has free spaces
+    //  Get request method to get all free spaces from given activity
+
+    @GetMapping(path = "activities/{id}/capacity")
+    public int getFreeSpaces(@PathVariable("id") Integer id) {
+        return activityService.getFreeSpaces(id);
+
+    }
+
 
 }
