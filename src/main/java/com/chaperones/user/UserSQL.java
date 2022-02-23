@@ -140,12 +140,12 @@ public class UserSQL implements UserDAO {
 
     public int getNumberOfBookings(Integer activity_id){
         String sql = """
-                SELECT COUNT (*) 
+                SELECT COUNT (DISTINCT user_id) 
                 FROM bookings 
                 WHERE activity_id = ?
                 """;
 
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, activity_id);
 
         if (count == null){
             count = 0;
