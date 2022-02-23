@@ -47,7 +47,7 @@ class VenueSQLTest {
     @Test
     void getByIdTest() {
         // Given
-        System.out.println("save me");
+
         // When
 
         // Then

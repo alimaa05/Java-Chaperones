@@ -4,6 +4,7 @@ import com.chaperones.guide.Guide;
 import com.chaperones.user.User;
 import com.chaperones.venue.Venue;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class ActivityService {
         }
         return activity;
     }
+
 
     // ----------------------------------------------------------
 
@@ -70,11 +72,15 @@ public class ActivityService {
     public Activity getActivityById(Integer id) {
 
         // check if the activity exists
-        Activity checkActivity = getExistingActivityOrThrowException(id);
+        Activity activity = activityDAO.getById(id);
+        // if it doesn't exist then throw exception
+        if (activity == null) {
+            throw new ActivityDoesNotExistException("Sorry, activity with id " + id + " does not exist");
 
-        Activity activitySelected = activityDAO.getById(id);
+        }
 
-        return activitySelected;
+
+        return activity;
 
     }
 
@@ -83,7 +89,11 @@ public class ActivityService {
     // Method to update an activity by id
 
     public void updateActivityById(Integer id, Activity activity) {
-        Activity checkActivity = getExistingActivityOrThrowException(id);
+
+        // if it doesn't exist then throw exception
+        if (activityDAO.getById(id) == null) {
+            throw new ActivityDoesNotExistException("Sorry, activity with id " + id + " does not exist");
+        }
 
         int updateId = activityDAO.updateById(id, activity);
 
@@ -100,7 +110,9 @@ public class ActivityService {
 
     public void deleteActivityById(Integer deleteId) {
 
-        Activity checkActivity = getExistingActivityOrThrowException(deleteId);
+        if (activityDAO.getById(deleteId) == null) {
+            throw new ActivityDoesNotExistException("Sorry, activity with id " + deleteId + " does not exist");
+        }
 
         int deleteActivity = activityDAO.deleteById(deleteId);
 
@@ -118,7 +130,9 @@ public class ActivityService {
     public List<User> getAllUsersFromGivenActivity(Integer id){
 
         // check if the activity exists
-        Activity checkActivity = getExistingActivityOrThrowException(id);
+        if (activityDAO.getById(id) == null) {
+            throw new ActivityDoesNotExistException("Sorry, activity with id " + id + " does not exist");
+        }
 
         // return a list of users called 'allUsersFromActivity' which is equal to the activityDAO method 'getAllUsersFromGivenActivity' taking in the id we pass
         List<User> allUsersFromActivity = activityDAO.getAllUsersFromGivenActivity(id);
@@ -127,5 +141,21 @@ public class ActivityService {
     }
 
 
+    // ----------------------------------------------------------
+    //  Method to check if activity has free spaces
+
+    public int getFreeSpaces(Integer id){
+
+
+        Activity activity = activityDAO.getById(id);
+
+        if (activity == null) {
+            throw new ActivityDoesNotExistException("Sorry, activity with id " + id + " does not exist");
+
+        }
+
+        return activity.getCapacity() - activityDAO.getNumberOfBookings(id);
+
+    }
 
 }

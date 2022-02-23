@@ -1,10 +1,8 @@
 package com.chaperones.activity;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
-import java.util.SimpleTimeZone;
 
 public class Activity {
     private Integer id;
@@ -18,8 +16,6 @@ public class Activity {
     private Double price;
     private Integer capacity;
     private Boolean cancelled;
-
-
 
 
     public Activity(Integer id, Integer guide_id, Integer venue_id, String name, String description, LocalDate date, LocalTime time, String duration, Double price, Integer capacity, Boolean cancelled) {

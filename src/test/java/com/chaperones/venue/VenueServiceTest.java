@@ -61,7 +61,7 @@ class VenueServiceTest {
     @Test
     void getAllVenues() {
         // Given
-        System.out.println("save me");
+
         // When
 
         // Then

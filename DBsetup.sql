@@ -129,3 +129,26 @@ INSERT INTO users (name, phoneNumber, email) VALUES ('Wendy', '02487 958754', 'w
 INSERT INTO users (name, phoneNumber, email) VALUES ('Yang', '02487 486752', 'yang@gmail.com');
 INSERT INTO users (name, phoneNumber, email) VALUES ('Aaron', '02787 895353', 'aaron@gmail.com');
 INSERT INTO users (name, phoneNumber, email) VALUES ('Suraaj', '02387 595367', 'suraaj@gmail.com');
+
+
+-- add user to booking
+INSERT INTO bookings
+(user_id, activity_id) VALUES (1, 1);
+INSERT INTO bookings
+(user_id, activity_id) VALUES (2, 1);
+INSERT INTO bookings
+(user_id, activity_id) VALUES (3, 1);
+INSERT INTO bookings
+(user_id, activity_id) VALUES (4, 1);
+INSERT INTO bookings
+(user_id, activity_id) VALUES (5, 1);
+INSERT INTO bookings
+(user_id, activity_id) VALUES (6, 1);
+INSERT INTO bookings
+(user_id, activity_id) VALUES (7, 1);
+INSERT INTO bookings
+(user_id, activity_id) VALUES (8, 1);
+INSERT INTO bookings
+(user_id, activity_id) VALUES (9, 1);
+INSERT INTO bookings
+(user_id, activity_id) VALUES (10, 1);

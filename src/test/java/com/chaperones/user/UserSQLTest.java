@@ -26,7 +26,6 @@ public class UserSQLTest {
 
         // When
         testing.add(testUser);
-        System.out.println("save me");
         // Then
         Mockito.verify(mock, times(1)).update("INSERT INTO users (name, phoneNumber, email) VALUES(?, ?, ?)", "Adib", "08878 238789", "adib@hotmail.com");
     }

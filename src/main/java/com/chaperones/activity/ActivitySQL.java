@@ -50,7 +50,7 @@ public class ActivitySQL implements ActivityDAO {
 
     // ----------------------------------------------------------
 
-    // Method for getting all the cars
+    // Method for getting all the activities
     @Override
     public List<Activity> getAll() {
         String sql = """
@@ -110,7 +110,7 @@ public class ActivitySQL implements ActivityDAO {
                             rs.getDouble("price"),
                             rs.getInt("capacity"),
                             rs.getBoolean("cancelled")
-                    //Get it by that id we pass in (the argument we’re passing)
+                            //Get it by that id we pass in (the argument we’re passing)
                     ), id);
 
         } catch (Exception e) {
@@ -213,39 +213,36 @@ public class ActivitySQL implements ActivityDAO {
                 WHERE activity_id = ?
                 """;
 
-//        SELECT user.userid, user.name, user.phoneNumber, activities.id
-//        FROM users
-//        INNER JOIN bookings
-//        ON user.id = bookings.user_id
-//        INNER JOIN activities
-//        ON bookings.activity_id = activities.id
-//        WHERE activities_id = ?
-//        """;
+
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+                new User(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("phoneNumber"),
+                        rs.getString("email")
+
+                ), id);
 
 
-return jdbcTemplate.query(sql, (rs, rowNum) ->
-        new User(
-            rs.getInt("id"),
-            rs.getString("name"),
-            rs.getString("phoneNumber"),
-            rs.getString("email")
-
-        ), id);
-
-
-//        RowMapper<User> userRowMapper = (rs, rowNum) ->
-//            new User(
-//                    rs.getInt("id"),
-//                    rs.getString("name"),
-//                    rs.getString("phoneNumber"),
-//                    rs.getString("email")
-//            );
-//
-//        return jdbcTemplate.query(sql, userRowMapper, id);
-
-
-}
+    }
 
 // ----------------------------------------------------------
+
+
+    public int getNumberOfBookings(Integer id){
+        String sql = """
+                SELECT COUNT (DISTINCT user_id) 
+                FROM bookings 
+                WHERE activity_id = ?
+                """;
+
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
+
+        if (count == null){
+            count = 0;
+        }
+                return count;
+    }
+
 
 }
