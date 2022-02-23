@@ -74,16 +74,19 @@ public class UserService {
         }
     }
 
-    public void addUserToActivity(Integer user_id, Activity activity) {
+
+    public void addUserToActivity(Integer user_id, Integer activity_id){
+
         if (userDAO.getById(user_id) == null) {
             throw new UserNotFoundException("User with id " + user_id + " could not found");
         }
 
-        int freeSpaces = activity.getCapacity() - userDAO.getNumberOfBookings(activity.getId());
+        int freeSpaces = userDAO.getFreeSpaces(activity_id);
 
         if (freeSpaces > 0) {
-            userDAO.addUserToActivity(user_id, activity.getId());
-        } else {
+            userDAO.addUserToActivity(user_id, activity_id);
+        }
+        else {
             throw new IllegalStateException("This activity is full.");
         }
     }
