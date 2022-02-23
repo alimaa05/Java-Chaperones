@@ -57,4 +57,9 @@ public class UserController {
     public void deleteUserById(@PathVariable("id") Integer id) {
         userService.deleteUserById(id);
     }
+
+    @PostMapping(path = "users/{user_id}/activities")
+    public void addUserToActivity(@PathVariable("user_id") Integer user_id, @RequestBody Activity activity) {
+        userService.addUserToActivity(user_id, activity);
+    }
 }

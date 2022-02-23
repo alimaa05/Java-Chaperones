@@ -127,4 +127,29 @@ public class UserSQL implements UserDAO {
 
             return jdbcTemplate.update(sql, id);
         };
+
+    @Override
+    public int addUserToActivity(Integer user_id, Integer activity_id){
+        String sql = """
+                INSERT INTO bookings
+                (user_id, activity_id) VALUES (?, ?);
+                """;
+
+        return jdbcTemplate.update(sql, user_id, activity_id);
+    }
+
+    public int getNumberOfBookings(Integer activity_id){
+        String sql = """
+                SELECT COUNT (*) 
+                FROM bookings 
+                WHERE activity_id = ?
+                """;
+
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
+
+        if (count == null){
+            count = 0;
+        }
+        return count;
+    }
 }
