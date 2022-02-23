@@ -9,7 +9,7 @@ class GuideServiceTest {
     @Test
     void addGuide() {
         // Given
-
+        System.out.println("save me");
         // When
 
         // Then
