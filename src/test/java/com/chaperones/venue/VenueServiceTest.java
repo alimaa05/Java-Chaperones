@@ -34,7 +34,7 @@ class VenueServiceTest {
         when(DAO.add(any())).thenReturn(1);
         underTest.addNewVenue(venue3);
 
-        // Then
+        // Thencan
         verify(DAO, times(1)).add(venue3);
     }
 
