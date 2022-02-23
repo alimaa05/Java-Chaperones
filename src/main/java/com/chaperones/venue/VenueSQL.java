@@ -1,8 +1,10 @@
 package com.chaperones.venue;
 
+import com.chaperones.activity.Activity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository("venuePostgres")
@@ -41,20 +43,47 @@ public class VenueSQL implements VenueDAO {
         );
     }
 
+    public List<Activity> getActivities(Integer id, boolean cancelled) {
+
+        String sql = "SELECT id, guide_id, venue_id, name, description, date, time, duration, price, capacity, cancelled FROM activities WHERE venue_id = ? AND cancelled = ?";
+
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+            new Activity(
+                rs.getInt("id"),
+                rs.getInt("guide_id"),
+                rs.getInt("venue_id"),
+                rs.getString("name"),
+                rs.getString("description"),
+                LocalDate.parse(rs.getString("date")),
+                LocalTime.parse(rs.getString("time")),
+                rs.getString("duration"),
+                rs.getDouble("price"),
+                rs.getInt("capacity"),
+                rs.getBoolean("cancelled")
+            ),
+            id,
+            cancelled
+        );
+    }
+
     @Override
     public Venue getById(Integer id) {
 
         String sql = "SELECT id, name, area, address FROM venues WHERE id = ?";
 
-        return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
-            new Venue(
-                rs.getInt("id"),
-                rs.getString("name"),
-                rs.getString("area"),
-                rs.getString("address")
-            ),
-            id
-        );
+        try {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+                new Venue(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("area"),
+                        rs.getString("address")
+                ),
+                id
+            );
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
