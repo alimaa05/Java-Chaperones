@@ -146,15 +146,11 @@ public class ActivityService {
 
     public int getFreeSpaces(Integer id){
 
-
-        Activity activity = activityDAO.getById(id);
-
-        if (activity == null) {
+        if (activityDAO.getById(id) == null) {
             throw new ActivityDoesNotExistException("Sorry, activity with id " + id + " does not exist");
-
         }
 
-        return activity.getCapacity() - activityDAO.getNumberOfBookings(id);
+        return activityDAO.getFreeSpaces(id);
 
     }
 
