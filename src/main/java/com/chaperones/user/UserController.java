@@ -1,7 +1,9 @@
 package com.chaperones.user;
 
+import com.chaperones.activity.Activity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,6 +28,24 @@ public class UserController {
     @GetMapping(path = "users/{id}")
     public User getUserById(@PathVariable("id") Integer id) {
         return userService.getUserById(id);
+    }
+
+    @GetMapping(path = "users/{id}/activities")
+    public List<Activity> getAllActivitiesByUser(@PathVariable("id") Integer id) {
+        List<Activity> allActivities = new ArrayList<>();
+        allActivities.addAll(userService.getActivitiesByUser(id, false));
+        allActivities.addAll(userService.getActivitiesByUser(id, true));
+        return allActivities;
+    }
+
+    @GetMapping(path = "users/{id}/activities/available")
+    public List<Activity> getAvailableActivitiesByUser(@PathVariable("id") Integer id) {
+        return userService.getActivitiesByUser(id, false);
+    }
+
+    @GetMapping(path = "users/{id}/activities/cancelled")
+    public List<Activity> getCancelledActivitiesByUser(@PathVariable("id") Integer id) {
+        return userService.getActivitiesByUser(id, true);
     }
 
     @PutMapping(path = "users/{id}")

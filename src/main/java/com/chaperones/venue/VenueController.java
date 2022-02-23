@@ -39,7 +39,7 @@ public class VenueController {
     }
 
     @GetMapping(path = "venues/{id}/activities/available")
-    public List<Activity> getOpenActivitiesAtVenue(@PathVariable("id") Integer id) {
+    public List<Activity> getAvailableActivitiesAtVenue(@PathVariable("id") Integer id) {
         return venueService.getActivitiesAtVenue(id, false);
     }
 
