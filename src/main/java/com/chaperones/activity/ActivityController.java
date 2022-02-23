@@ -76,7 +76,7 @@ public class ActivityController {
     // ----------------------------------------------------------
     //  Get request method to get all free spaces from given activity
 
-    @GetMapping(path = "activities/{id}/capacity")
+    @GetMapping(path = "activities/{id}/spaces")
     public int getFreeSpaces(@PathVariable("id") Integer id) {
         return activityService.getFreeSpaces(id);
 
