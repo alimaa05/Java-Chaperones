@@ -138,14 +138,28 @@ public class UserSQL implements UserDAO {
         return jdbcTemplate.update(sql, user_id, activity_id);
     }
 
-    public int getNumberOfBookings(Integer activity_id){
+    @Override
+    public int removeUserFromActivity(Integer user_id, Integer activity_id){
         String sql = """
-                SELECT COUNT (*) 
-                FROM bookings 
-                WHERE activity_id = ?
+                DELETE FROM bookings WHERE 
+                (user_id, activity_id) = (?, ?);
                 """;
 
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
+        return jdbcTemplate.update(sql, user_id, activity_id);
+    }
+
+    public int getFreeSpaces(Integer activity_id){
+        String sql = """
+                SELECT
+                (SELECT capacity
+                FROM activities
+                WHERE id = ?) -
+                (SELECT COUNT (DISTINCT user_id)
+                FROM bookings
+                WHERE activity_id = ?) AS total
+                """;
+
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, activity_id, activity_id);
 
         if (count == null){
             count = 0;

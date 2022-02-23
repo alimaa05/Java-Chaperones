@@ -146,15 +146,27 @@ public class ActivityService {
 
     public int getFreeSpaces(Integer id){
 
-
-        Activity activity = activityDAO.getById(id);
-
-        if (activity == null) {
+        if (activityDAO.getById(id) == null) {
             throw new ActivityDoesNotExistException("Sorry, activity with id " + id + " does not exist");
-
         }
 
-        return activity.getCapacity() - activityDAO.getNumberOfBookings(id);
+        return activityDAO.getFreeSpaces(id);
+
+    }
+
+    public void cancel(Integer id, boolean cancelled) {
+        Activity activity = activityDAO.getById(id);
+        if (activity == null) {
+            throw new ActivityDoesNotExistException("Sorry, activity with id " + id + " does not exist");
+        }
+
+        activity.setCancelled(cancelled);
+        int updateId = activityDAO.updateById(id, activity);
+
+        if (updateId != 1) {
+            throw new IllegalStateException("Sorry, activity with id " + id + " could not be updated");
+        }
+
 
     }
 

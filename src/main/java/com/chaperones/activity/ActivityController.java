@@ -54,6 +54,16 @@ public class ActivityController {
 
     }
 
+    @PutMapping(path = "activities/{id}/cancel")
+    public void cancelById(@PathVariable("id") Integer id) {
+        activityService.cancel(id, true);
+    }
+
+    @PutMapping(path = "activities/{id}/reopen")
+    public void reopenById(@PathVariable("id") Integer id) {
+        activityService.cancel(id, false);
+    }
+
     // ----------------------------------------------------------
 
     // delete request method to delete an activity by id
