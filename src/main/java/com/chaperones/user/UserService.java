@@ -13,7 +13,7 @@ public class UserService {
 
     private UserDAO userDAO;
 
-    public UserService(@Qualifier("userPostgres") UserDAO userDAO){
+    public UserService(@Qualifier("userPostgres") UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
@@ -25,10 +25,10 @@ public class UserService {
                 throw new IllegalStateException("User already exists");
             }
         }
-            int addUser = userDAO.add(user);
-            if (addUser != 1) {
-                throw new IllegalStateException("User could not be added");
-            }
+        int addUser = userDAO.add(user);
+        if (addUser != 1) {
+            throw new IllegalStateException("User could not be added");
+        }
     }
 
     public List<User> getAllUsers() {
@@ -37,7 +37,7 @@ public class UserService {
 
     public User getUserById(Integer id) {
         User selected = userDAO.getById(id);
-        if (selected == null){
+        if (selected == null) {
             throw new UserNotFoundException("User could not be found");
         } else return selected;
     }
@@ -74,7 +74,7 @@ public class UserService {
         }
     }
 
-    public void addUserToActivity(Integer user_id, Activity activity){
+    public void addUserToActivity(Integer user_id, Activity activity) {
         if (userDAO.getById(user_id) == null) {
             throw new UserNotFoundException("User with id " + user_id + " could not found");
         }
@@ -83,9 +83,22 @@ public class UserService {
 
         if (freeSpaces > 0) {
             userDAO.addUserToActivity(user_id, activity.getId());
-        }
-        else {
+        } else {
             throw new IllegalStateException("This activity is full.");
         }
+    }
+
+    public int removeUserFromActivity(Integer user_id, Integer activity_id) {
+        if (userDAO.getById(user_id) == null) {
+            throw new UserNotFoundException("User with id " + user_id + " could not found");
+        }
+
+        int result = userDAO.removeUserFromActivity(user_id, activity_id);
+
+        if (result != 1) {
+            throw new IllegalStateException("User with id " + user_id + " could not be removed from activity");
+        }
+
+        return result;
     }
 }
