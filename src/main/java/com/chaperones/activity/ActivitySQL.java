@@ -228,6 +228,7 @@ public class ActivitySQL implements ActivityDAO {
 
 // ----------------------------------------------------------
 
+    // Method to get the number of bookings for given activity
 
     public int getNumberOfBookings(Integer id){
         String sql = """
