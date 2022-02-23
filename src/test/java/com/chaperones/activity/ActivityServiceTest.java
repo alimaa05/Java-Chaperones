@@ -1,0 +1,138 @@
+package com.chaperones.activity;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class ActivityServiceTest {
+private ActivityService underTest;
+private ActivityDAO mockDAO;
+
+// before each test is run it will carry out this section
+@BeforeEach
+    void setup(){
+    // create mock of ActivityDAO only want to test the service in isolation so we create a mock(fake) version of the ActivityDAO
+    mockDAO = mock(ActivityDAO.class);
+    // creating new variable so we can call on 'underTest' within out tests
+    underTest = new ActivityService(mockDAO);
+}
+
+    @Test
+    void canGetAllActivities() {
+        // Given
+
+        // want to return a list
+        List<Activity> testingGetAllActivities = new ArrayList<>();
+
+
+        // When
+
+        // when you call mockDAO get all in a list and return the list 'testingGetAllActivities'
+        when(mockDAO.getAll()).thenReturn(testingGetAllActivities);
+        underTest.getAllActivities();
+
+        // Then
+        verify(mockDAO,times(1)).getAll();
+
+
+    }
+
+    @Test
+    void canGetAllActivitiesWhenNull() {
+        // Given
+
+        // want to return a list
+        List<Activity> testingGetAllActivities = new ArrayList<>();
+        Activity activity = new Activity(1,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+        testingGetAllActivities.add(activity);
+
+        // When
+
+        // when you call mockDAO get all in a list and return the list 'testingGetAllActivities'
+        when(mockDAO.getAll()).thenReturn(testingGetAllActivities);
+        underTest.getAllActivities();
+
+        // Then
+        verify(mockDAO,times(1)).getAll();
+
+
+    }
+
+
+    @Test
+    void canAddNewActivity() {
+        // Given
+
+        // want to return a list
+        List<Activity> testingAddNewActivities = new ArrayList<>();
+        Activity activity = new Activity(1,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+
+        // When
+
+        // when you call mockDAO get all in a list and return the list 'testingGetAllActivities'
+        when(mockDAO.getAll()).thenReturn(testingAddNewActivities);
+        when(mockDAO.add(any())).thenReturn(1);
+        underTest.addNewActivity(activity);
+
+
+        // Then
+        verify(mockDAO,times(1)).getAll();
+        verify(mockDAO,times(1)).add(activity);
+
+
+
+    }
+
+    @Test
+    void getActivityById() {
+        // Given
+
+        // When
+
+        // Then
+    }
+
+    @Test
+    void updateActivityById() {
+        // Given
+
+        // When
+
+        // Then
+    }
+
+    @Test
+    void deleteActivityById() {
+        // Given
+
+        // When
+
+        // Then
+    }
+
+    @Test
+    void getAllUsersFromGivenActivity() {
+        // Given
+
+        // When
+
+        // Then
+    }
+
+    @Test
+    void getFreeSpaces() {
+        // Given
+
+        // When
+
+        // Then
+    }
+}
