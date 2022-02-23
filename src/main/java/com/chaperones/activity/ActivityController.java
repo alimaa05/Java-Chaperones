@@ -74,4 +74,7 @@ public class ActivityController {
        return activityService.getAllUsersFromGivenActivity(id);
     }
 
+    // ----------------------------------------------------------
+    //  Get request method to check if activity has free spaces
+
 }
