@@ -87,6 +87,5 @@ public class UserService {
         else {
             throw new IllegalStateException("This activity is full.");
         }
-
     }
 }

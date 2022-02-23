@@ -138,6 +138,16 @@ public class UserSQL implements UserDAO {
         return jdbcTemplate.update(sql, user_id, activity_id);
     }
 
+    @Override
+    public int removeUserFromActivity(Integer user_id, Integer activity_id){
+        String sql = """
+                DELETE FROM bookings WHERE 
+                (user_id, activity_id) = (?, ?);
+                """;
+
+        return jdbcTemplate.update(sql, user_id, activity_id);
+    }
+
     public int getNumberOfBookings(Integer activity_id){
         String sql = """
                 SELECT COUNT (DISTINCT user_id) 

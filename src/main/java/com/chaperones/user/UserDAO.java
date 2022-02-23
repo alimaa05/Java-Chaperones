@@ -13,4 +13,5 @@ public interface UserDAO {
     public int deleteById(Integer id);
     public int addUserToActivity(Integer user_id, Integer activity_id);
     public int getNumberOfBookings(Integer activity_id);
+    public int removeUserFromActivity(Integer user_id, Integer activity_id);
 }
