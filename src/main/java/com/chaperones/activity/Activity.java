@@ -36,6 +36,12 @@ public class Activity {
         this.cancelled = cancelled;
     }
 
+    public Activity (Integer id, String name, Integer capacity){
+        this.id = id;
+        this.name = name;
+        this.capacity = capacity;
+    }
+
     public Integer getId() {
         return id;
     }

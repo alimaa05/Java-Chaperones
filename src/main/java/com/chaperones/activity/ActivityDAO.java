@@ -13,4 +13,6 @@ public interface ActivityDAO {
     public int updateById(Integer id, Activity update);
     public int deleteById(Integer id);
     public List<User> getAllUsersFromGivenActivity(Integer id);
+    public List<Activity> spaceLeftOnGivenActivity(Integer capacity, Integer id);
+    public int getNumberOfBookings(Integer id);
 }
