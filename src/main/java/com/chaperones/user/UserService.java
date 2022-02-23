@@ -1,5 +1,7 @@
 package com.chaperones.user;
 
+import com.chaperones.activity.Activity;
+import com.chaperones.venue.VenueNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +14,6 @@ public class UserService {
 
     public UserService(@Qualifier("userPostgres") UserDAO userDAO){
         this.userDAO = userDAO;
-    }
-
-    public List<User> getAllUsers() {
-        return userDAO.getAll();
     }
 
     public void addNewUser(User user) {
@@ -32,11 +30,23 @@ public class UserService {
             }
     }
 
+    public List<User> getAllUsers() {
+        return userDAO.getAll();
+    }
+
     public User getUserById(Integer id) {
         User selected = userDAO.getById(id);
         if (selected == null){
             throw new UserNotFoundException("User could not be found");
         } else return selected;
+    }
+
+    public List<Activity> getActivitiesByUser(Integer id, boolean cancelled) {
+        if (userDAO.getById(id) == null) {
+            throw new UserNotFoundException("User with id " + id + " could not be found");
+        }
+
+        return userDAO.getActivities(id, cancelled);
     }
 
     public void updateUserById(Integer id, User user) {

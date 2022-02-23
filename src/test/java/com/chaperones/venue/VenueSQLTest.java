@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -32,9 +35,12 @@ class VenueSQLTest {
     @Test
     void getAllTest() {
         // Given
-
+        List<Venue> mockList = new ArrayList<Venue>();
+        mockList.add(new Venue(1, "London Dungeons", "Southbank", "The Queen's Walk, London SE1 7PB"));
+        mockList.add(new Venue(2, "London Eye", "River Thames", "Riverside Building, County Hall, London SE1 7PB"));
+        mockList.add(new Venue(3, "Sea Life London", "River Thames", "Riverside Building, County Hall, Westminster Bridge Rd London SE1 7PB"));
         // When
-
+        List<Venue> actual = underTest.getAll();
         // Then
     }
 
