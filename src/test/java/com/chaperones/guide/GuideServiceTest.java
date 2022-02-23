@@ -70,12 +70,31 @@ class GuideServiceTest {
     }
 
     @Test
-    void allGuides() {
+    void returnAllGuides() {
         // Given
+        Guide testGuide = new Guide(1, "blah", "01424 346816", "blah@gmail.com");
+        Guide testGuide1 = new Guide(2, "la", "01424 346889", "la@gmail.com");
+        List<Guide> testList = new ArrayList<>(Arrays.asList(testGuide, testGuide1));
 
         // When
-
+        when(mockDAO.getAll()).thenReturn(testList);
+        underTest.allGuides();
         // Then
+        verify(mockDAO,times(1)).getAll();
+
+    }
+    @Test
+    void returnAllGuidesWhenNull() {
+        // Given
+
+        List<Guide> testList = new ArrayList<>(Arrays.asList());
+
+        // When
+        when(mockDAO.getAll()).thenReturn(testList);
+        underTest.allGuides();
+        // Then
+        verify(mockDAO,times(1)).getAll();
+
     }
 
     @Test
