@@ -228,37 +228,15 @@ public class ActivitySQL implements ActivityDAO {
 
 // ----------------------------------------------------------
 
-    // Method to get the number of spaces left on given booking - filtering by capacity
-
-    public List<Activity> spaceLeftOnGivenActivity(Integer id, Integer capacity) {
-
-        String sql = """
-                SELECT activities.id, activities.capacity, activities.name
-                FROM (activities
-                INNER JOIN bookings
-                ON activities.id = bookings.activity_id)
-                WHERE activity_id = ? AND capacity = ?
-                
-                """;
-        return jdbcTemplate.query(sql, (rs, rowNum) ->
-                new Activity(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getInt("capacity")
-
-                ), id, capacity);
-
-
-    }
 
     public int getNumberOfBookings(Integer id){
         String sql = """
-                SELECT COUNT (*) 
+                SELECT COUNT (DISTINCT user_id) 
                 FROM bookings 
                 WHERE activity_id = ?
                 """;
 
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
 
         if (count == null){
             count = 0;
