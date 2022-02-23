@@ -16,10 +16,12 @@ public class Venue {
         this.address = address;
     }
 
-    public Venue(){}
-
     public Integer getId(){
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

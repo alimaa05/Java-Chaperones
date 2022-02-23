@@ -1,6 +1,7 @@
 package com.chaperones.guide;
 
 
+import com.chaperones.activity.Activity;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +35,48 @@ public class GuideService {
         // if this is successful we return 1 to indicate 1 guide has been added
         return 1;
     }
-
-    private Guide guideExist(Integer id) {
-        Guide guide = guideDAO.getById(id);
-        if (guide == null) {
-            throw new GuideDoesNotExistException("This guide does not exist");
+    
+    public List<Guide> allGuides(){
+        //check list is not empty if it is alert user
+        List<Guide> guides = guideDAO.getAll();
+        if(guides == null){
+            throw new IllegalStateException("There are no guides");
         }
-        return guide;
+        return guides;
+    }
+   public Guide guideById(Integer id){
+       Guide selected = guideDAO.getById(id);
+        if (selected == null) {
+           throw new GuideDoesNotExistException("This guide does not exist");
+       } else return selected;
+   }
+   public int updateGuide(Integer id, Guide guide){
+       //check if the guide exists if they do not throw exception saying so
+       Guide guideExist = guideById(id);
+       //call on the method to update a guide by their id in the dao,
+       // passing through the arguments this method accepts which is
+       // the id and the guide information that is to be changed
+       int updated = guideDAO.updateById(id, guide);
+       // check the confirmation that guide has been updated if not
+       // inform user that this has not happened
+       if(updated != 1){
+           throw new IllegalStateException("Unable to update this guide");
+       }
+        return updated;
+   }
+   public int deleteGuide(Integer id){
+       //check if the guide exists
+       Guide guideExist = guideById(id);
+       int deleted = guideDAO.deleteById(id);
+       if(deleted != 1){
+           throw new IllegalStateException("Unable to delete this guide");
+       }
+        return deleted;
+   }
+   //get all activities assigned to a guide
+    public List<Activity> guidesActivities(Integer id, boolean cancelled){
+        //check if the guide exists
+        Guide guideExist = guideById(id);
+        return guideDAO.allActivities(id, cancelled);
     }
 }
