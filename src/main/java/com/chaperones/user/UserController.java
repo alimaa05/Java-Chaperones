@@ -1,6 +1,7 @@
 package com.chaperones.user;
 
 import com.chaperones.activity.Activity;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -61,5 +62,10 @@ public class UserController {
     @PostMapping(path = "users/{user_id}/activities")
     public void addUserToActivity(@PathVariable("user_id") Integer user_id, @RequestBody Activity activity) {
         userService.addUserToActivity(user_id, activity);
+    }
+
+    @DeleteMapping(path = "user/{user_id}/activities/{activity_id}")
+    public int deleteUserFromActivity(@PathVariable("user_id") Integer user_id, @PathVariable Integer activity_id) {
+       return userService.removeUserFromActivity(user_id, activity_id);
     }
 }
