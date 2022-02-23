@@ -1,6 +1,7 @@
 package com.chaperones.activity;
 
 import com.chaperones.guide.Guide;
+import com.chaperones.user.User;
 import com.chaperones.venue.Venue;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,7 @@ public class ActivityService {
 
         // Creating a list of activities called checkActivities
         // = to getAllActivities that's equal to the method above and will return list of all activities
+        // Can’t call a method and then equal another method - need to create a placeholder i.e. 'checkAvailability'
         List<Activity> checkActivity = getAllActivities();
 
         // for loop --> loop through the list checkedActivities and storing it in the placeholder 'currentActivity'
@@ -107,5 +109,23 @@ public class ActivityService {
         }
 
     }
+
+    // ----------------------------------------------------------
+
+    // Method to get all the users booked on a given activity
+
+    // want to return a list of all the users
+    public List<User> getAllUsersFromGivenActivity(Integer id){
+
+        // check if the activity exists
+        Activity checkActivity = getExistingActivityOrThrowException(id);
+
+        // return a list of users called 'allUsersFromActivity' which is equal to the activityDAO method 'getAllUsersFromGivenActivity' taking in the id we pass
+        List<User> allUsersFromActivity = activityDAO.getAllUsersFromGivenActivity(id);
+        return allUsersFromActivity;
+
+    }
+
+
 
 }

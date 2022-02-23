@@ -50,12 +50,12 @@ public class GuideController {
         return allActivities;
     }
     //get all the not cancelled activities assigned to a guide
-    @GetMapping("guides/{id}/activities")
+    @GetMapping("guides/{id}/activities/available")
     public List<Activity> getGuidesAvailableActivities(@PathVariable("id")Integer guidesId){
         return guideService.guidesActivities(guidesId, false);
     }
     //get all the cancelled activities assigned to a guide
-    @GetMapping("guides/{id}/activities")
+    @GetMapping("guides/{id}/activities/cancelled")
     public List<Activity> getGuidesCancelledActivities(@PathVariable("id")Integer guidesId){
         return guideService.guidesActivities(guidesId, true);
     }
