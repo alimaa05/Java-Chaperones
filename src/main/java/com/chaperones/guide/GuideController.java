@@ -21,7 +21,8 @@ public class GuideController {
     public void addGuide(@RequestBody Guide guide){
         guideService.addGuide(guide);
     }
-    @RequestMapping("guides")
+
+    @GetMapping("guides")
     public List<Guide> getAllGuide(){
        return guideService.allGuides();
     }

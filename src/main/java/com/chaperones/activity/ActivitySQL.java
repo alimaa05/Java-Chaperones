@@ -228,15 +228,21 @@ public class ActivitySQL implements ActivityDAO {
 
 // ----------------------------------------------------------
 
+    // Method to get the number of bookings for given activity
 
-    public int getNumberOfBookings(Integer id){
+    public int getFreeSpaces(Integer id){
         String sql = """
-                SELECT COUNT (DISTINCT user_id) 
-                FROM bookings 
-                WHERE activity_id = ?
+                SELECT
+                (SELECT capacity
+                FROM activities
+                WHERE id = ?) -
+                (SELECT COUNT (DISTINCT user_id)
+                FROM bookings
+                WHERE activity_id = ?) AS total
                 """;
 
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
+
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id, id);
 
         if (count == null){
             count = 0;
