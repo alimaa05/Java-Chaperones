@@ -154,4 +154,20 @@ public class ActivityService {
 
     }
 
+    public void cancel(Integer id, boolean cancelled) {
+        Activity activity = activityDAO.getById(id);
+        if (activity == null) {
+            throw new ActivityDoesNotExistException("Sorry, activity with id " + id + " does not exist");
+        }
+
+        activity.setCancelled(cancelled);
+        int updateId = activityDAO.updateById(id, activity);
+
+        if (updateId != 1) {
+            throw new IllegalStateException("Sorry, activity with id " + id + " could not be updated");
+        }
+
+
+    }
+
 }
