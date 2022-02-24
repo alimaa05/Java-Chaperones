@@ -34,7 +34,7 @@ class VenueServiceTest {
         when(DAO.add(any())).thenReturn(1);
         underTest.addNewVenue(venue3);
 
-        // Thencan
+        // Then
         verify(DAO, times(1)).add(venue3);
     }
 
@@ -46,7 +46,7 @@ class VenueServiceTest {
         List<Venue> venues = new ArrayList<>(Arrays.asList(venue1, venue2));
 
         // When
-        Venue venue3 = new Venue(3, "same name", "area3", "address3");
+        Venue venue3 = new Venue(3, "Same name ", "area3", "address3");
         when(DAO.getAll()).thenReturn(venues);
         when(DAO.add(any())).thenReturn(1);
         IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
@@ -56,6 +56,26 @@ class VenueServiceTest {
         // Then
         verify(DAO, never()).add(venue3);
         assertEquals("Venue already exists", thrown.getMessage());
+    }
+
+    @Test
+    void recogniseSQLFailsForAddVenueTest() {
+        // Given
+        Venue venue1 = new Venue(1, "name1", "area1", "address1");
+        Venue venue2 = new Venue(2, "name2", "area2", "address2");
+        List<Venue> venues = new ArrayList<>(Arrays.asList(venue1, venue2));
+
+        // When
+        Venue venue3 = new Venue(3, "name3", "area3", "address3");
+        when(DAO.getAll()).thenReturn(venues);
+        when(DAO.add(any())).thenReturn(0);
+        IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
+            underTest.addNewVenue(venue3);
+        });
+
+        // Then
+        verify(DAO, times(1)).add(venue3);
+        assertEquals("Venue could not be added", thrown.getMessage());
     }
 
     @Test
