@@ -66,7 +66,7 @@ public class UserSQL implements UserDAO {
         }
     }
 
-    public List<Activity> getActivities(Integer id, boolean cancelled) {
+    public List<Activity> getActivitiesByUser(Integer id, boolean cancelled) {
 
         String sql = """
                 SELECT activities.id, activities.guide_id, activities.venue_id, activities.name, activities.description, activities.date, activities.time, activities.duration, activities.price, activities.capacity, activities.cancelled 
