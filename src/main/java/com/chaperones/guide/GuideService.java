@@ -69,7 +69,7 @@ public class GuideService {
        }
 
        int deleted = guideDAO.deleteById(id);
-       
+
        if(deleted != 1){
            throw new IllegalStateException("Unable to delete this guide");
        }
