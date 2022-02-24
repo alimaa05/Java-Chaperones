@@ -8,7 +8,7 @@ public interface UserDAO {
     public int add(User user);
     public List<User> getAll();
     public User getById(Integer id);
-    public List<Activity> getActivities(Integer id, boolean cancelled);
+    public List<Activity> getActivitiesByUser(Integer id, boolean cancelled);
     public int updateById(Integer id, User update);
     public int deleteById(Integer id);
     public int addUserToActivity(Integer user_id, Integer activity_id);
