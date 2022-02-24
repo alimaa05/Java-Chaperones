@@ -13,13 +13,14 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class GuideServiceTest {
-//    @InjectMocks
+    //    @InjectMocks
 //    GuideService underTest;
 //
 //    @Mock
@@ -38,6 +39,7 @@ class GuideServiceTest {
         mockDAO = Mockito.mock(GuideDAO.class);
         underTest = new GuideService(mockDAO);
     }
+
     @Test
     void addGuide() {
         // Given
@@ -45,9 +47,9 @@ class GuideServiceTest {
         List<Guide> testList = new ArrayList<>(Arrays.asList());
 
         // When
-            when(mockDAO.getAll()).thenReturn(testList);
-            when(mockDAO.add(any())).thenReturn(1);
-           underTest.addGuide(testGuide);
+        when(mockDAO.getAll()).thenReturn(testList);
+        when(mockDAO.add(any())).thenReturn(1);
+        underTest.addGuide(testGuide);
         // Then
         verify(mockDAO, times(1)).add(testGuide);
     }
@@ -85,9 +87,10 @@ class GuideServiceTest {
         when(mockDAO.getAll()).thenReturn(testList);
         underTest.allGuides();
         // Then
-        verify(mockDAO,times(1)).getAll();
+        verify(mockDAO, times(1)).getAll();
 
     }
+
     @Test
     void returnAllGuidesWhenNull() {
         // Given
@@ -98,7 +101,7 @@ class GuideServiceTest {
         when(mockDAO.getAll()).thenReturn(testList);
         underTest.allGuides();
         // Then
-        verify(mockDAO,times(1)).getAll();
+        verify(mockDAO, times(1)).getAll();
 
     }
 
@@ -159,11 +162,12 @@ class GuideServiceTest {
 
         // When
         when(mockDAO.getById(1)).thenReturn(testGuide);
-        when(mockDAO.updateById(1,changedTestGuide)).thenReturn(1);
+        when(mockDAO.updateById(1, changedTestGuide)).thenReturn(1);
         underTest.updateGuide(1, changedTestGuide);
         // Then
-        verify(mockDAO,times(1)).updateById(1, changedTestGuide);
+        verify(mockDAO, times(1)).updateById(1, changedTestGuide);
     }
+
     @Test
     void updateGuideByIdWhenIdDoesNotExist() {
         // Given
@@ -173,7 +177,7 @@ class GuideServiceTest {
 
         // When
         when(mockDAO.getById(3)).thenReturn(null);
-        when(mockDAO.updateById(3,changedTestGuide)).thenReturn(0);
+        when(mockDAO.updateById(3, changedTestGuide)).thenReturn(0);
         GuideDoesNotExistException ex = assertThrows(GuideDoesNotExistException.class, () -> {
             underTest.updateGuide(3, changedTestGuide);
         });
@@ -181,7 +185,7 @@ class GuideServiceTest {
         // Then
         assertEquals("This guide does not exist", ex.getMessage());
         verify(mockDAO, times(1)).getById(3);
-        verify(mockDAO,never()).updateById(3, changedTestGuide);
+        verify(mockDAO, never()).updateById(3, changedTestGuide);
 
     }
 
@@ -194,7 +198,7 @@ class GuideServiceTest {
 
         // When
         when(mockDAO.getById(1)).thenReturn(testGuide);
-        when(mockDAO.updateById(1,changedTestGuide)).thenReturn(0);
+        when(mockDAO.updateById(1, changedTestGuide)).thenReturn(0);
         IllegalStateException ex = assertThrows(IllegalStateException.class, () -> {
             underTest.updateGuide(1, changedTestGuide);
         });
@@ -202,7 +206,7 @@ class GuideServiceTest {
         // Then
         assertEquals("Unable to update this guide", ex.getMessage());
         verify(mockDAO, times(1)).getById(1);
-        verify(mockDAO,times(1)).updateById(1, changedTestGuide);
+        verify(mockDAO, times(1)).updateById(1, changedTestGuide);
 
     }
 
@@ -224,6 +228,7 @@ class GuideServiceTest {
         verify(mockDAO, times(1)).deleteById(1);
 
     }
+
     @Test
     void deleteGuideWhenDAOSideDoesNotReturn1() {
         // Given
@@ -245,19 +250,45 @@ class GuideServiceTest {
 
     @Test
     void getGuidesActivitiesThatAreActive() {
+//        // Given
+//        Guide testGuide = new Guide(1, "blah", "01424 346816", "blah@gmail.com");
+//        List<Guide> testList = new ArrayList<>(Arrays.asList(testGuide));
+//        List<Activity> testActivities = new ArrayList<>();
+//        Activity activity = new Activity(1,1,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+//        testActivities.add(activity);
+//        // When
+//        when(mockDAO.getAll()).thenReturn(testList);
+//        when(mockDAO.getById(1)).thenReturn(testGuide);
+//        when(mockDAO.allActivities(1, false)).thenReturn(testActivities);
+//        List<Activity> actual = underTest.guidesActivities(1, false);
+//        // Then
+//        verify(mockDAO, times(1)).allActivities(1, false);
+//        assertThat(actual).isEqualTo(testActivities);
+
+
         // Given
         Guide testGuide = new Guide(1, "blah", "01424 346816", "blah@gmail.com");
-        List<Guide> testList = new ArrayList<>(Arrays.asList(testGuide));
-        List<Activity> testActivities = new ArrayList<>();
-        Activity activity = new Activity(1,1,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
-        testActivities.add(activity);
-        // When
-        when(mockDAO.getAll()).thenReturn(testList);
-        when(mockDAO.getById(1)).thenReturn(testGuide);
-        when(mockDAO.allActivities(1, false)).thenReturn(testActivities);
-        List<Activity> actual = underTest.guidesActivities(1, false);
+        Activity activity = new Activity(1, 1, 2, "Kew Gardens", "test", LocalDate.of(2022, 03, 12), LocalTime.of(13, 0, 00), "1hr", 40.00, 20, false);
+        Activity activity1 = new Activity(2, 1, 2, "test gardens", "test", LocalDate.of(2022, 03, 12), LocalTime.of(13, 0, 00), "1hr", 40.00, 20, true);
+        List<Activity> testActivities = new ArrayList<>(Arrays.asList(activity, activity1));
+        List<Activity> selected = new ArrayList<>();
+
+        Integer id = 1;
+        boolean cancelled = false;
+
+        //when
+        when(mockDAO.getById(id)).thenReturn(testGuide);
+        for (Activity activ : testActivities) {
+            if (Objects.equals(activ.getGuide_id(), id) && activ.getCancelled() == cancelled) {
+                selected.add(activ);
+            }
+        }
+        when(mockDAO.allActivities(1, false)).thenReturn(selected);
+        List<Activity> actual = underTest.guidesActivities(id, cancelled);
+
         // Then
-        verify(mockDAO, times(1)).allActivities(1, false);
-        assertThat(actual).isEqualTo(testActivities);
+        List<Activity> expected = new ArrayList<>(List.of(activity));
+        assertThat(actual).isEqualTo(expected);
+
     }
 }
