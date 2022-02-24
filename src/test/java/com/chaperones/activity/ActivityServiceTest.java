@@ -165,7 +165,7 @@ private ActivityDAO mockDAO;
 
 
     @Test
-    void updateActivityById() {
+    void canUpdateActivityById() {
         // Given
         Activity originalActivity = new Activity(2,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
         Activity updatedActivity = new Activity(2,4,2,"London Bridge","newTest", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
@@ -183,6 +183,26 @@ private ActivityDAO mockDAO;
 
     }
 
+    @Test
+    void canUpdateActivityByIdThatDoesNotExist() {
+        // Given
+        Activity originalActivity = new Activity(2,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+        Activity updatedActivity = new Activity(2,4,2,"London Bridge","newTest", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+
+
+        // When
+        when(mockDAO.getById(3)).thenReturn(null);
+        when(mockDAO.updateById(3,updatedActivity)).thenReturn(0);
+        ActivityDoesNotExistException thrown = assertThrows(ActivityDoesNotExistException.class, () -> {
+                    underTest.updateActivityById(3, updatedActivity);
+                });
+        // Then
+
+        verify(mockDAO, times(1)).getById(3);
+        verify(mockDAO, never()).updateById(3,updatedActivity);
+        assertEquals("Sorry, activity with id 3 does not exist", thrown.getMessage());
+
+    }
 
 
     @Test
