@@ -144,22 +144,20 @@ private ActivityDAO mockDAO;
 
         // Given
         Activity expectedActivity = new Activity(2,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
-//        List<Activity> CheckIfActivityByIdExists = new ArrayList<>(Arrays.asList(expectedActivity));
-
 
         // When
         when(mockDAO.getById(1)).thenReturn(null);
         ActivityDoesNotExistException thrown = assertThrows(ActivityDoesNotExistException.class, () -> {
             // calling variable underTest add another activity - add activity1
             underTest.getActivityById(1);
-//            Activity actual = underTest.getActivityById(1);
+
         });
 
 
         // Then
         verify(mockDAO, times(1)).getById(1);
         assertEquals("Sorry, activity with id 1 does not exist", thrown.getMessage());
-//        assertThat(actual).isEqualTo(expectedActivity);
+
 
     }
 
@@ -230,11 +228,59 @@ private ActivityDAO mockDAO;
     @Test
     void deleteActivityById() {
         // Given
+        Activity originalActivity = new Activity(2,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
 
         // When
 
+        when(mockDAO.getById(2)).thenReturn(originalActivity);
+        when(mockDAO.deleteById(2)).thenReturn(1);
+        underTest.deleteActivityById(2);
+
         // Then
+        verify(mockDAO, times(1)).getById(2);
+        verify(mockDAO, times(1)).deleteById(2);
+
     }
+
+    @Test
+    void canDeleteActivityByIdWhenIdDoesNotExist() {
+        // Given
+        Activity originalActivity = new Activity(2,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+        Activity updatedActivity = new Activity(2,4,2,"London Bridge","newTest", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+
+        // When
+        when(mockDAO.getById(3)).thenReturn(null);
+        when(mockDAO.deleteById(3)).thenReturn(0);
+        ActivityDoesNotExistException thrown = assertThrows(ActivityDoesNotExistException.class, () -> {
+            underTest.deleteActivityById(3);
+        });
+
+        // Then
+        verify(mockDAO, times(1)).getById(3);
+        verify(mockDAO, never()).deleteById(3);
+        assertEquals("Sorry, activity with id 3 does not exist", thrown.getMessage());
+
+    }
+    @Test
+    void canDeleteActivityByIdWhenActivityIsNotEqualOne() {
+        // Given
+        Activity originalActivity = new Activity(2,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+        Activity updatedActivity = new Activity(2,4,2,"London Bridge","newTest", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+
+        // When
+        when(mockDAO.getById(2)).thenReturn(originalActivity);
+        when(mockDAO.deleteById(2)).thenReturn(0);
+        IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
+            underTest.deleteActivityById(2);
+        });
+
+        // Then
+        verify(mockDAO, times(1)).getById(2);
+        verify(mockDAO, times(1)).deleteById(2);
+        assertEquals("Sorry, activity with id 2 could not be deleted", thrown.getMessage());
+
+    }
+
 
     @Test
     void getAllUsersFromGivenActivity() {
