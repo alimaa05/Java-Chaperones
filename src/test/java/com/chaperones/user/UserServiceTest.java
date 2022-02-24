@@ -66,7 +66,6 @@ class UserServiceTest {
         User testUser = new User(1, "ash", "08933 283409", "ash@gmail.com");
         User testUser1 = new User(2, "misty", "03833 283409", "misty@gmail.com");
 
-
         // When
         testUsers.add(testUser);
         when(mockDAO.getAll()).thenReturn(testUsers);
@@ -120,10 +119,6 @@ class UserServiceTest {
     }
 
     @Test
-    void getActivitiesByUser() {
-    }
-
-    @Test
     void updateUserById() {
         // Given
         User originalUser = new User(2, "ash", "08933 283409", "ash@gmail.com");
@@ -151,12 +146,10 @@ class UserServiceTest {
             underTest.updateUserById(3, updatedUser);
         });
 
-
         // Then
         verify(mockDAO, times(1)).getById(3);
         verify(mockDAO, never()).updateById(3,updatedUser);
-        assertEquals("User with id 3 could not found", thrown.getMessage());
-
+        assertEquals("User with id 3 could not be found", thrown.getMessage());
     }
 
     @Test
@@ -172,23 +165,100 @@ class UserServiceTest {
             underTest.updateUserById(2, updatedUser);
         });
 
-
         // Then
         verify(mockDAO, times(1)).getById(2);
         verify(mockDAO, times(1)).updateById(2,updatedUser);
         assertEquals("User with id 2 could not be updated", thrown.getMessage());
-
     }
 
     @Test
     void deleteUserById() {
+        // Given
+        User originalUser = new User(2, "ash", "08933 283409", "ash@gmail.com");
+
+        // When
+        when(mockDAO.getById(2)).thenReturn(originalUser);
+        when(mockDAO.deleteById(2)).thenReturn(1);
+        underTest.deleteUserById(2);
+
+        // Then
+        verify(mockDAO, times(1)).getById(2);
+        verify(mockDAO, times(1)).deleteById(2);
+    }
+
+    @Test
+    void deleteUserByIdWhenIdDoesNotExist() {
+        // Given
+        User deletedUser = new User(2, "misty", "08933 283409", "ash@gmail.com");
+
+        // When
+        when(mockDAO.getById(3)).thenReturn(null);
+        when(mockDAO.updateById(3,deletedUser)).thenReturn(0);
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class, () -> {
+            underTest.deleteUserById(3);
+        });
+
+        // Then
+        verify(mockDAO, times(1)).getById(3);
+        verify(mockDAO, never()).deleteById(3);
+        assertEquals("User with id 3 could not be found", thrown.getMessage());
+    }
+
+    @Test
+    void deleteUserByIdWhenIdDoesNotEqualOne() {
+        // Given
+        User originalUser = new User(1, "ash", "08933 283409", "ash@gmail.com");
+        User updatedUser = new User(2, "misty", "08933 283409", "ash@gmail.com");
+
+        // When
+        when(mockDAO.getById(2)).thenReturn(originalUser);
+        when(mockDAO.deleteById(2)).thenReturn(0);
+        IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
+            underTest.deleteUserById(2);
+        });
+
+        // Then
+        verify(mockDAO, times(1)).getById(2);
+        verify(mockDAO, times(1)).deleteById(2);
+        assertEquals("User with id 2 could not be deleted", thrown.getMessage());
+    }
+
+    @Test
+    void getActivitiesByUser() {
+        // Given
+
+
+        // When
+
+
+        // Then
+
+
     }
 
     @Test
     void addUserToActivity() {
+        // Given
+
+
+        // When
+
+
+        // Then
+
+
     }
 
     @Test
     void removeUserFromActivity() {
+        // Given
+
+
+        // When
+
+
+        // Then
+
+
     }
 }
