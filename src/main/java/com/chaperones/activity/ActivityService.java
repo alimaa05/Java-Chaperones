@@ -1,10 +1,7 @@
 package com.chaperones.activity;
 
-import com.chaperones.guide.Guide;
 import com.chaperones.user.User;
-import com.chaperones.venue.Venue;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -113,9 +110,8 @@ public class ActivityService {
             throw new ActivityDoesNotExistException("Sorry, activity with id " + id + " does not exist");
         }
 
-        // return a list of users called 'allUsersFromActivity' which is equal to the activityDAO method 'getAllUsersFromGivenActivity' taking in the id we pass
-        List<User> allUsersFromActivity = activityDAO.getAllUsersFromGivenActivity(id);
-        return allUsersFromActivity;
+        // return a list of users from method 'getAllUsersFromGivenActivity' taking in the id we pass
+        return activityDAO.getAllUsersFromGivenActivity(id);
     }
 
 

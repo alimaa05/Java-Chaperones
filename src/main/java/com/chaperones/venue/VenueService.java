@@ -1,7 +1,6 @@
 package com.chaperones.venue;
 
 import com.chaperones.activity.Activity;
-import com.chaperones.user.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
