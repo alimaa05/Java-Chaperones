@@ -1,14 +1,9 @@
 package com.chaperones.activity;
 
-
 import com.chaperones.user.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import com.chaperones.guide.Guide;
-import com.chaperones.venue.Venue;
-
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;

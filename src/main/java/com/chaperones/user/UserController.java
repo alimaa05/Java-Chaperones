@@ -1,7 +1,6 @@
 package com.chaperones.user;
 
 import com.chaperones.activity.Activity;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

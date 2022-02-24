@@ -1,8 +1,6 @@
 package com.chaperones.activity;
 
-import com.chaperones.guide.Guide;
 import com.chaperones.user.User;
-import com.chaperones.venue.Venue;
 
 import java.util.List;
 
