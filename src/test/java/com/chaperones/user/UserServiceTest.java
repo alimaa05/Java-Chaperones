@@ -139,6 +139,27 @@ class UserServiceTest {
     }
 
     @Test
+    void updateUserByIdWhenIdDoesNotExist() {
+        // Given
+        User originalUser = new User(2, "ash", "08933 283409", "ash@gmail.com");
+        User updatedUser = new User(2, "misty", "08933 283409", "ash@gmail.com");
+
+        // When
+        when(mockDAO.getById(3)).thenReturn(null);
+        when(mockDAO.updateById(3,updatedUser)).thenReturn(0);
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class, () -> {
+            underTest.updateUserById(3, updatedUser);
+        });
+
+
+        // Then
+        verify(mockDAO, times(1)).getById(3);
+        verify(mockDAO, never()).updateById(3,updatedUser);
+        assertEquals("User with id 3 could not found", thrown.getMessage());
+
+    }
+
+    @Test
     void deleteUserById() {
     }
 
