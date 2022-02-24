@@ -22,7 +22,7 @@ public class GuideService {
         List<Guide> guidesList = guideDAO.getAll();
         for (Guide exist : guidesList) {
             //if a guide with the same phone number or email is already in the list of all the guides then the guide already exists. It could be a phone and (&&) email.
-            if (exist.getPhoneNumber().equals(guide.getPhoneNumber()) || exist.getEmail().equals(guide.getEmail())) {
+            if (exist.getPhoneNumber().equals(guide.getPhoneNumber()) || exist.getEmail().equalsIgnoreCase(guide.getEmail())) {
                 throw new IllegalStateException("Guide already exists");
             }
         }

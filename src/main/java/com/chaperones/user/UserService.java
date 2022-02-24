@@ -18,15 +18,15 @@ public class UserService {
     }
 
     public void addNewUser(User user) {
-        List<User> getAllUsers = userDAO.getAll();
-        for (User getUserById : getAllUsers) {
-            if (getUserById.getPhoneNumber().equals(user.getPhoneNumber())
-                    || getUserById.getEmail().equals(user.getEmail())) {
+        List<User> allUsers = userDAO.getAll();
+        for (User u : allUsers) {
+            if (u.getPhoneNumber().equals(user.getPhoneNumber())
+                    || u.getEmail().equalsIgnoreCase(user.getEmail())) {
                 throw new IllegalStateException("User already exists");
             }
         }
-        int addUser = userDAO.add(user);
-        if (addUser != 1) {
+        int added = userDAO.add(user);
+        if (added != 1) {
             throw new IllegalStateException("User could not be added");
         }
     }
@@ -52,7 +52,7 @@ public class UserService {
 
     public void updateUserById(Integer id, User user) {
         if (userDAO.getById(id) == null) {
-            throw new UserNotFoundException("User with id " + id + " could not found");
+            throw new UserNotFoundException("User with id " + id + " could not be found");
         }
 
         int result = userDAO.updateById(id, user);
@@ -64,7 +64,7 @@ public class UserService {
 
     public void deleteUserById(Integer id) {
         if (userDAO.getById(id) == null) {
-            throw new UserNotFoundException("User with id " + id + " could not found");
+            throw new UserNotFoundException("User with id " + id + " could not be found");
         }
 
         int result = userDAO.deleteById(id);
@@ -78,7 +78,7 @@ public class UserService {
     public void addUserToActivity(Integer user_id, Integer activity_id){
 
         if (userDAO.getById(user_id) == null) {
-            throw new UserNotFoundException("User with id " + user_id + " could not found");
+            throw new UserNotFoundException("User with id " + user_id + " could not be found");
         }
 
         int freeSpaces = userDAO.getFreeSpaces(activity_id);
@@ -93,7 +93,7 @@ public class UserService {
 
     public int removeUserFromActivity(Integer user_id, Integer activity_id) {
         if (userDAO.getById(user_id) == null) {
-            throw new UserNotFoundException("User with id " + user_id + " could not found");
+            throw new UserNotFoundException("User with id " + user_id + " could not be found");
         }
 
         int result = userDAO.removeUserFromActivity(user_id, activity_id);
