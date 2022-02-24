@@ -1,5 +1,6 @@
 package com.chaperones.user;
 
+import com.chaperones.activity.Activity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -226,14 +227,16 @@ class UserServiceTest {
     @Test
     void getActivitiesByUser() {
         // Given
-
-
+        User originalUser = new User(1, "ash", "08933 283409", "ash@gmail.com");
+        List<Activity> testActivity = new ArrayList<>();
         // When
-
+        when(mockDAO.getById(1)).thenReturn(originalUser);
+        when(mockDAO.getActivities(1, false)).thenReturn(testActivity);
+            underTest.getActivitiesByUser(1, false);
 
         // Then
-
-
+        verify(mockDAO, times(1)).getById(1);
+        verify(mockDAO, times(1)).getActivities(1, false);
     }
 
     @Test
