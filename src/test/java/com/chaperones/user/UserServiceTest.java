@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UserServiceTest {
@@ -46,7 +46,6 @@ class UserServiceTest {
         User testUser1 = new User(2, "misty", "03833 283409", "misty@gmail.com");
         User testUser2 = new User(3, "ash", "34933 283409", "ahdkj@gmail.com");
         List<User> testUsers = new ArrayList<>(Arrays.asList(testUser, testUser1));
-        // ask andrew about arrays.aslist tomorrow
 
         // When
         when(mockDAO.getAll()).thenReturn(testUsers);
@@ -93,18 +92,31 @@ class UserServiceTest {
     @Test
     void getUserById() {
         // Given
-        List<User> testUsers = new ArrayList<>();
-        User testUser = new User(1, "ash", "08933 283409", "ash@gmail.com");
-        User testUser1 = new User(2, "misty", "03833 283409", "misty@gmail.com");
-        testUsers.add(testUser);
-        testUsers.add(testUser1);
+        User expectedUser = new User(1, "ash", "08933 283409", "ash@gmail.com");
 
         // When
-        when(mockDAO.getById(1)).thenReturn(testUser);
-        underTest.getUserById(1);
+        when(mockDAO.getById(1)).thenReturn(expectedUser);
+        User actual = underTest.getUserById(1);
 
         // Then
         verify(mockDAO, times(1)).getById(1);
+        assertThat(actual).isEqualTo(expectedUser);
+    }
+
+    @Test
+    void cantGetUserByIdIfUserExists() {
+        // Given
+        User expectedUser = new User(2, "ash", "08933 283409", "ash@gmail.com");
+
+        // When
+        when(mockDAO.getById(1)).thenReturn(null);
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class, () -> {
+            underTest.getUserById(1);
+        });
+
+        // Then
+        verify(mockDAO, times(1)).getById(1);
+        assertEquals("User could not be found", thrown.getMessage());
     }
 
     @Test
@@ -113,6 +125,17 @@ class UserServiceTest {
 
     @Test
     void updateUserById() {
+        // Given
+        User originalUser = new User(2, "ash", "08933 283409", "ash@gmail.com");
+        User updatedUser = new User(2, "misty", "08933 283409", "ash@gmail.com");
+
+        // When
+        when(mockDAO.getById(2)).thenReturn(originalUser);
+        when(mockDAO.updateById(2,updatedUser)).thenReturn(1);
+        underTest.updateUserById(2, updatedUser);
+
+        // Then
+        verify(mockDAO, times(1)).updateById(2,updatedUser);
     }
 
     @Test
