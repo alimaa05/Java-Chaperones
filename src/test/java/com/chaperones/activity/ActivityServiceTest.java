@@ -183,7 +183,7 @@ private ActivityDAO mockDAO;
 
     }
 
-    
+
 
     @Test
     void deleteActivityById() {
