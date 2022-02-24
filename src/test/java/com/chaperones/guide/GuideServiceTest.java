@@ -160,10 +160,9 @@ class GuideServiceTest {
         // When
         when(mockDAO.getById(1)).thenReturn(testGuide);
         when(mockDAO.updateById(1,changedTestGuide)).thenReturn(1);
-        int actual = underTest.updateGuide(1, changedTestGuide);
+        underTest.updateGuide(1, changedTestGuide);
         // Then
         verify(mockDAO,times(1)).updateById(1, changedTestGuide);
-        assertThat(actual).isEqualTo(1);
     }
     @Test
     void updateGuideByIdWhenIdDoesNotExist() {

@@ -1,6 +1,5 @@
 package com.chaperones.guide;
 
-
 import com.chaperones.activity.Activity;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -47,11 +46,13 @@ public class GuideService {
        Guide selected = guideDAO.getById(id);
         if (selected == null) {
            throw new GuideDoesNotExistException("This guide does not exist");
-       } else return selected;
+        } else return selected;
    }
-   public int updateGuide(Integer id, Guide guide){
+   public void updateGuide(Integer id, Guide guide){
        //check if the guide exists if they do not throw exception saying so
-       Guide guideExist = guideById(id);
+       if (guideDAO.getById(id) == null) {
+           throw new GuideDoesNotExistException("This guide does not exist");
+       }
        //call on the method to update a guide by their id in the dao,
        // passing through the arguments this method accepts which is
        // the id and the guide information that is to be changed
@@ -61,21 +62,25 @@ public class GuideService {
        if(updated != 1){
            throw new IllegalStateException("Unable to update this guide");
        }
-        return updated;
    }
-   public int deleteGuide(Integer id){
+   public void deleteGuide(Integer id){
        //check if the guide exists
-       Guide guideExist = guideById(id);
+       if (guideDAO.getById(id) == null) {
+           throw new GuideDoesNotExistException("This guide does not exist");
+       }
+
        int deleted = guideDAO.deleteById(id);
+
        if(deleted != 1){
            throw new IllegalStateException("Unable to delete this guide");
        }
-        return deleted;
    }
    //get all activities assigned to a guide
     public List<Activity> guidesActivities(Integer id, boolean cancelled){
         //check if the guide exists
-        Guide guideExist = guideById(id);
+        if (guideDAO.getById(id) == null) {
+            throw new GuideDoesNotExistException("This guide does not exist");
+        }
         return guideDAO.allActivities(id, cancelled);
     }
 }

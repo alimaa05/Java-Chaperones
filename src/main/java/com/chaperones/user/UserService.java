@@ -1,8 +1,6 @@
 package com.chaperones.user;
 
 import com.chaperones.activity.Activity;
-import com.chaperones.activity.ActivityDoesNotExistException;
-import com.chaperones.venue.VenueNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 

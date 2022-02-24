@@ -51,7 +51,7 @@ class VenueServiceTest {
         List<Venue> venues = new ArrayList<>(Arrays.asList(venue1, venue2));
 
         // When
-        Venue venue3 = new Venue(3, "Same name ", "area3", "address3");
+        Venue venue3 = new Venue(3, "Same Name", "area3", "address3");
         when(DAO.getAll()).thenReturn(venues);
         when(DAO.add(any())).thenReturn(1);
         IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
@@ -102,8 +102,6 @@ class VenueServiceTest {
     void getAvailableActivitiesAtVenueTest() {
         // Given
         Venue venue1 = new Venue(1, "name1", "area1", "address1");
-        Venue venue2 = new Venue(2, "name2", "area2", "address2");
-        List<Venue> venues = new ArrayList<>(Arrays.asList(venue1, venue2));
 
         Activity activity1 = new Activity(1, 1, 1, "activity1", "desc1", LocalDate.of(2022, 5, 5), LocalTime.of(12,30,0), "1hr", 5.5, 5, false);
         Activity activity2 = new Activity(2, 4, 1, "activity2", "desc2", LocalDate.of(2022, 5, 6), LocalTime.of(12,30,0), "1hr", 5.5, 5, true);
@@ -111,9 +109,10 @@ class VenueServiceTest {
         List<Activity> activities = new ArrayList<>(Arrays.asList(activity1, activity2, activity3));
         List<Activity> selected = new ArrayList<>();
 
-        // When
         Integer id = 1;
         boolean cancelled = false;
+
+        // When
         when(DAO.getById(id)).thenReturn(venue1);
         for (Activity a : activities) {
             if (Objects.equals(a.getVenue_id(), id) && a.getCancelled() == cancelled) {
@@ -124,7 +123,7 @@ class VenueServiceTest {
         List<Activity> actual = underTest.getActivitiesAtVenue(id, cancelled);
 
         // Then
-        List<Activity> expected = new ArrayList<>(Arrays.asList(activity1));
+        List<Activity> expected = new ArrayList<>(List.of(activity1));
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -132,8 +131,6 @@ class VenueServiceTest {
     void getCancelledActivitiesAtVenueTest() {
         // Given
         Venue venue1 = new Venue(1, "name1", "area1", "address1");
-        Venue venue2 = new Venue(2, "name2", "area2", "address2");
-        List<Venue> venues = new ArrayList<>(Arrays.asList(venue1, venue2));
 
         Activity activity1 = new Activity(1, 1, 1, "activity1", "desc1", LocalDate.of(2022, 5, 5), LocalTime.of(12,30,0), "1hr", 5.5, 5, false);
         Activity activity2 = new Activity(2, 4, 1, "activity2", "desc2", LocalDate.of(2022, 5, 6), LocalTime.of(12,30,0), "1hr", 5.5, 5, true);
@@ -141,9 +138,10 @@ class VenueServiceTest {
         List<Activity> activities = new ArrayList<>(Arrays.asList(activity1, activity2, activity3));
         List<Activity> selected = new ArrayList<>();
 
-        // When
         Integer id = 1;
         boolean cancelled = true;
+
+        // When
         when(DAO.getById(id)).thenReturn(venue1);
         for (Activity a : activities) {
             if (Objects.equals(a.getVenue_id(), id) && a.getCancelled() == cancelled) {
@@ -154,26 +152,23 @@ class VenueServiceTest {
         List<Activity> actual = underTest.getActivitiesAtVenue(id, cancelled);
 
         // Then
-        List<Activity> expected = new ArrayList<>(Arrays.asList(activity2));
+        List<Activity> expected = new ArrayList<>(List.of(activity2));
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void cantGetActivitiesAtUnknownVenueTest() {
         // Given
-        Venue venue1 = new Venue(1, "name1", "area1", "address1");
-        Venue venue2 = new Venue(2, "name2", "area2", "address2");
-        List<Venue> venues = new ArrayList<>(Arrays.asList(venue1, venue2));
-
         Activity activity1 = new Activity(1, 1, 1, "activity1", "desc1", LocalDate.of(2022, 5, 5), LocalTime.of(12,30,0), "1hr", 5.5, 5, false);
         Activity activity2 = new Activity(2, 4, 1, "activity2", "desc2", LocalDate.of(2022, 5, 6), LocalTime.of(12,30,0), "1hr", 5.5, 5, true);
         Activity activity3 = new Activity(3, 2, 2, "activity3", "desc3", LocalDate.of(2022, 5, 7), LocalTime.of(12,30,0), "1hr", 5.5, 5, false);
         List<Activity> activities = new ArrayList<>(Arrays.asList(activity1, activity2, activity3));
         List<Activity> selected = new ArrayList<>();
 
-        // When
         Integer id = 3;
         boolean cancelled = false;
+
+        // When
         when(DAO.getById(id)).thenReturn(null);
         for (Activity a : activities) {
             if (Objects.equals(a.getVenue_id(), id) && a.getCancelled() == cancelled) {
@@ -195,8 +190,6 @@ class VenueServiceTest {
     void wrongIdStillReturnsEmptyVenueListTest() {
         // Given
         Venue venue1 = new Venue(1, "name1", "area1", "address1");
-        Venue venue2 = new Venue(2, "name2", "area2", "address2");
-        List<Venue> venues = new ArrayList<>(Arrays.asList(venue1, venue2));
 
         Activity activity1 = new Activity(1, 1, 1, "activity1", "desc1", LocalDate.of(2022, 5, 5), LocalTime.of(12,30,0), "1hr", 5.5, 5, false);
         Activity activity2 = new Activity(2, 4, 1, "activity2", "desc2", LocalDate.of(2022, 5, 6), LocalTime.of(12,30,0), "1hr", 5.5, 5, true);
@@ -204,10 +197,11 @@ class VenueServiceTest {
         List<Activity> activities = new ArrayList<>(Arrays.asList(activity1, activity2, activity3));
         List<Activity> selected = new ArrayList<>();
 
-        // When
         Integer id = 3;
         boolean cancelled = false;
-        when(DAO.getById(id)).thenReturn(venue2); //even if this fails to throw
+
+        // When
+        when(DAO.getById(id)).thenReturn(venue1); //this fails to throw
         for (Activity a : activities) {
             if (Objects.equals(a.getVenue_id(), id) && a.getCancelled() == cancelled) {
                 selected.add(a);
@@ -226,26 +220,21 @@ class VenueServiceTest {
     @Test
     void getVenueByIdTest() {
         Venue venue1 = new Venue(1, "name1", "area1", "address1");
-        Venue venue2 = new Venue(2, "name2", "area2", "address2");
-        List<Venue> venues = new ArrayList<>(Arrays.asList(venue1, venue2));
 
         // When
         when(DAO.getById(1)).thenReturn(venue1);
         Venue actual = underTest.getVenueById(1);
 
         // Then
-        Venue expected = venue1;
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isEqualTo(venue1);
     }
 
     @Test
     void cantGetUnknownVenueByIdTest() {
-        Venue venue1 = new Venue(1, "name1", "area1", "address1");
-        Venue venue2 = new Venue(2, "name2", "area2", "address2");
-        List<Venue> venues = new ArrayList<>(Arrays.asList(venue1, venue2));
+        // Given
+        Integer id = 3;
 
         // When
-        Integer id = 3;
         when(DAO.getById(id)).thenReturn(null);
         VenueNotFoundException thrown = assertThrows(VenueNotFoundException.class, () -> {
             underTest.getVenueById(3);
@@ -260,10 +249,9 @@ class VenueServiceTest {
     void updateVenueByIdTest() {
         // Given
         Venue venue1 = new Venue(1, "name1", "area1", "address1");
-        Venue venue2 = new Venue(2, "name2", "area2", "address2");
+        Integer id = 1;
 
         // When
-        Integer id = 1;
         Venue venue3 = new Venue(3, "name3", "area3", "address3");
         when(DAO.getById(id)).thenReturn(venue1);
         when(DAO.updateById(any(), any())).thenReturn(1);
@@ -276,12 +264,10 @@ class VenueServiceTest {
 
     @Test
     void cantUpdateUnknownVenueByIdTest() {
-        // Given
-        Venue venue1 = new Venue(1, "name1", "area1", "address1");
-        Venue venue2 = new Venue(2, "name2", "area2", "address2");
+        //Given
+        Integer id = 5;
 
         // When
-        Integer id = 5;
         Venue venue3 = new Venue(3, "name3", "area3", "address3");
         when(DAO.getById(id)).thenReturn(null);
         when(DAO.updateById(any(), any())).thenReturn(1);
@@ -299,11 +285,10 @@ class VenueServiceTest {
     void recogniseSQLFailsForUpdateVenueByIdTest() {
         // Given
         Venue venue1 = new Venue(1, "name1", "area1", "address1");
-        Venue venue2 = new Venue(2, "name2", "area2", "address2");
+        Venue venue3 = new Venue(3, "name3", "area3", "address3");
+        Integer id = 1;
 
         // When
-        Integer id = 1;
-        Venue venue3 = new Venue(3, "name3", "area3", "address3");
         when(DAO.getById(id)).thenReturn(venue1);
         when(DAO.updateById(any(), any())).thenReturn(0); //SQL BREAKS
         IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
@@ -320,10 +305,9 @@ class VenueServiceTest {
     void deleteVenueByIdTest() {
         // Given
         Venue venue1 = new Venue(1, "name1", "area1", "address1");
-        Venue venue2 = new Venue(2, "name2", "area2", "address2");
+        Integer id = 1;
 
         // When
-        Integer id = 1;
         when(DAO.getById(id)).thenReturn(venue1);
         when(DAO.deleteById(any())).thenReturn(1);
         underTest.deleteVenueById(id);
@@ -336,11 +320,9 @@ class VenueServiceTest {
     @Test
     void cantDeleteUnknownVenueByIdTest() {
         // Given
-        Venue venue1 = new Venue(1, "name1", "area1", "address1");
-        Venue venue2 = new Venue(2, "name2", "area2", "address2");
+        Integer id = 3;
 
         // When
-        Integer id = 3;
         when(DAO.getById(id)).thenReturn(null);
         when(DAO.deleteById(any())).thenReturn(1);
         VenueNotFoundException thrown = assertThrows(VenueNotFoundException.class, () -> {
@@ -357,10 +339,9 @@ class VenueServiceTest {
     void recogniseSQLFailsForUpdateDeleteByIdTest() {
         // Given
         Venue venue1 = new Venue(1, "name1", "area1", "address1");
-        Venue venue2 = new Venue(2, "name2", "area2", "address2");
+        Integer id = 1;
 
         // When
-        Integer id = 1;
         when(DAO.getById(id)).thenReturn(venue1);
         when(DAO.updateById(any(), any())).thenReturn(0); //SQL BREAKS
         IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
