@@ -38,11 +38,11 @@ class GuideServiceTest {
         mockDAO = Mockito.mock(GuideDAO.class);
         underTest = new GuideService(mockDAO);
     }
-        @Test
+    @Test
     void addGuide() {
         // Given
         Guide testGuide = new Guide(1, "blah", "01424 346816", "blah@gmail.com");
-        List<Guide> testList = new ArrayList<>(Arrays.asList(testGuide));
+        List<Guide> testList = new ArrayList<>(Arrays.asList());
 
         // When
             when(mockDAO.getAll()).thenReturn(testList);
@@ -51,6 +51,7 @@ class GuideServiceTest {
         // Then
         verify(mockDAO, times(1)).add(testGuide);
     }
+
     @Test
     void addGuideWhenPhoneNumberAndEmailIsSameAsExistingGuides() {
         // Given
@@ -206,14 +207,42 @@ class GuideServiceTest {
 
     }
 
-
     @Test
     void deleteGuide() {
         // Given
-
+        Guide testGuide = new Guide(1, "blah", "01424 346816", "blah@gmail.com");
+        Guide testGuide1 = new Guide(2, "la", "01424 346889", "la@gmail.com");
+        List<Guide> testList = new ArrayList<>(Arrays.asList(testGuide, testGuide1));
         // When
+        when(mockDAO.getAll()).thenReturn(testList);
+        when(mockDAO.getById(1)).thenReturn(testGuide);
+        when(mockDAO.deleteById(1)).thenReturn(1);
+        underTest.deleteGuide(1);
+
 
         // Then
+        verify(mockDAO, times(1)).getById(1);
+        verify(mockDAO, times(1)).deleteById(1);
+
+    }
+    @Test
+    void deleteGuideWhenDAOSideDoesNotReturn1() {
+        // Given
+        Guide testGuide = new Guide(1, "blah", "01424 346816", "blah@gmail.com");
+        Guide testGuide1 = new Guide(2, "la", "01424 346889", "la@gmail.com");
+        List<Guide> testList = new ArrayList<>(Arrays.asList(testGuide, testGuide1));
+        // When
+        when(mockDAO.getAll()).thenReturn(testList);
+        when(mockDAO.getById(1)).thenReturn(testGuide);
+        when(mockDAO.deleteById(1)).thenReturn(0);
+        IllegalStateException ex = assertThrows(IllegalStateException.class, () -> {
+            underTest.deleteGuide(1);
+        });
+
+
+        // Then
+        assertEquals("Unable to delete this guide", ex.getMessage());
+        verify(mockDAO, times(1)).deleteById(1);
     }
 
     @Test

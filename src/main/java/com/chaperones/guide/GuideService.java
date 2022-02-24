@@ -15,7 +15,7 @@ public class GuideService {
         this.guideDAO = guideDAO;
     }
 
-    public int addGuide(Guide guide) {
+    public void addGuide(Guide guide) {
         // check the guide does not already exist
         //if the guide does not exist we need to add the guide
     // get all guides and loop through them
@@ -32,8 +32,7 @@ public class GuideService {
         if (adding != 1) {
             throw new IllegalStateException("Guide could not be added");
         }
-        // if this is successful we return 1 to indicate 1 guide has been added
-        return 1;
+
     }
     
     public List<Guide> allGuides(){
