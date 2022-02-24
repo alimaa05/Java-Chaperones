@@ -19,7 +19,7 @@ public class VenueService {
     public void addNewVenue(Venue venue) {
         List<Venue> allVenues = venueDAO.getAll();
         for (Venue v : allVenues) {
-            if (venue.getName().trim().equalsIgnoreCase(v.getName().trim())) {
+            if (venue.getName().equalsIgnoreCase(v.getName())) {
                 throw new IllegalStateException("Venue already exists");
             }
         }
