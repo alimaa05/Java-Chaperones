@@ -20,7 +20,7 @@ public class UserService {
     public void addNewUser(User user) {
         List<User> allUsers = userDAO.getAll();
         for (User u : allUsers) {
-            if (u.getPhoneNumber().equalsIgnoreCase(user.getPhoneNumber())
+            if (u.getPhoneNumber().equals(user.getPhoneNumber())
                     || u.getEmail().equalsIgnoreCase(user.getEmail())) {
                 throw new IllegalStateException("User already exists");
             }
