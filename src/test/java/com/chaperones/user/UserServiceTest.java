@@ -160,6 +160,27 @@ class UserServiceTest {
     }
 
     @Test
+    void updateUserByIdWhenIdDoesNotEqualOne() {
+        // Given
+        User originalUser = new User(2, "ash", "08933 283409", "ash@gmail.com");
+        User updatedUser = new User(2, "misty", "08933 283409", "ash@gmail.com");
+
+        // When
+        when(mockDAO.getById(2)).thenReturn(originalUser);
+        when(mockDAO.updateById(2,updatedUser)).thenReturn(0);
+        IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
+            underTest.updateUserById(2, updatedUser);
+        });
+
+
+        // Then
+        verify(mockDAO, times(1)).getById(2);
+        verify(mockDAO, times(1)).updateById(2,updatedUser);
+        assertEquals("User with id 2 could not be updated", thrown.getMessage());
+
+    }
+
+    @Test
     void deleteUserById() {
     }
 
