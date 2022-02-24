@@ -82,14 +82,17 @@ public class UserService {
         int freeSpaces = userDAO.getFreeSpaces(activity_id);
 
         if (freeSpaces > 0) {
-            userDAO.addUserToActivity(user_id, activity_id);
+            int result = userDAO.addUserToActivity(user_id, activity_id);
+            if (result != 1) {
+                throw new IllegalStateException("User with id " + user_id + " could not be removed from activity");
+            }
         }
         else {
             throw new IllegalStateException("This activity is full.");
         }
     }
 
-    public int removeUserFromActivity(Integer user_id, Integer activity_id) {
+    public void removeUserFromActivity(Integer user_id, Integer activity_id) {
         if (userDAO.getById(user_id) == null) {
             throw new UserNotFoundException("User with id " + user_id + " could not be found");
         }
@@ -99,7 +102,5 @@ public class UserService {
         if (result != 1) {
             throw new IllegalStateException("User with id " + user_id + " could not be removed from activity");
         }
-
-        return result;
     }
 }

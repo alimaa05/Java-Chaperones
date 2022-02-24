@@ -18,7 +18,7 @@ public class UserSQL implements UserDAO {
     }
 
     @Override
-        public int add(User user) {
+    public int add(User user) {
         String sql = "INSERT INTO users (name, phoneNumber, email) VALUES(?, ?, ?)";
         int rowsAffected = jdbcTemplate.update(
                 sql,
@@ -30,7 +30,8 @@ public class UserSQL implements UserDAO {
     };
 
     @Override
-        public List<User> getAll() {
+    public List<User> getAll() {
+
         String sql = """
                 SELECT id, name, phoneNumber, email
                 FROM users
@@ -47,7 +48,7 @@ public class UserSQL implements UserDAO {
     }
 
     @Override
-        public User getById(Integer id) {
+    public User getById(Integer id) {
 
         String sql = "SELECT id, name, phoneNumber, email FROM users WHERE id = ?";
 
@@ -98,35 +99,35 @@ public class UserSQL implements UserDAO {
     }
 
     @Override
-        public int updateById(Integer id, User update){
+    public int updateById(Integer id, User update){
 
-            String sql = "UPDATE users SET (name, phoneNumber, email)=(?, ?, ?) WHERE id = ?";
+        String sql = "UPDATE users SET (name, phoneNumber, email)=(?, ?, ?) WHERE id = ?";
 
-            User original = getById(id);
+        User original = getById(id);
 
-            String newName = update.getName();
-            if (newName == null) newName = original.getName();
-            String newPhoneNumber = update.getPhoneNumber();
-            if (newPhoneNumber == null) newPhoneNumber = original.getPhoneNumber();
-            String newEmail = update.getEmail();
-            if (newEmail == null) newEmail = original.getEmail();
+        String newName = update.getName();
+        if (newName == null) newName = original.getName();
+        String newPhoneNumber = update.getPhoneNumber();
+        if (newPhoneNumber == null) newPhoneNumber = original.getPhoneNumber();
+        String newEmail = update.getEmail();
+        if (newEmail == null) newEmail = original.getEmail();
 
-            return jdbcTemplate.update(
-                    sql,
-                    newName,
-                    newPhoneNumber,
-                    newEmail,
-                    id
-            );
-        };
+        return jdbcTemplate.update(
+                sql,
+                newName,
+                newPhoneNumber,
+                newEmail,
+                id
+        );
+    };
 
     @Override
-        public int deleteById(Integer id){
+    public int deleteById(Integer id){
 
-            String sql = "DELETE FROM users WHERE id = ?";
+        String sql = "DELETE FROM users WHERE id = ?";
 
-            return jdbcTemplate.update(sql, id);
-        };
+        return jdbcTemplate.update(sql, id);
+    };
 
     @Override
     public int addUserToActivity(Integer user_id, Integer activity_id){
