@@ -164,6 +164,26 @@ class GuideServiceTest {
         verify(mockDAO,times(1)).updateById(1, changedTestGuide);
         assertThat(actual).isEqualTo(1);
     }
+    @Test
+    void updateGuideByIdWhenIdDoesNotExist() {
+        // Given
+        Guide testGuide = new Guide(1, "blah", "01424 346816", "blah@gmail.com");
+        Guide changedTestGuide = new Guide(3, "blah", "01424 346889", "blah@gmail.com");
+        List<Guide> testList = new ArrayList<>(Arrays.asList(testGuide));
+
+        // When
+        when(mockDAO.getById(3)).thenReturn(null);
+        when(mockDAO.updateById(3,changedTestGuide)).thenReturn(0);
+        GuideDoesNotExistException ex = assertThrows(GuideDoesNotExistException.class, () -> {
+            underTest.updateGuide(3, changedTestGuide);
+        });
+
+        // Then
+        assertEquals("This guide does not exist", ex.getMessage());
+        verify(mockDAO, times(1)).getById(3);
+        verify(mockDAO,never()).updateById(3, changedTestGuide);
+
+    }
 
     @Test
     void deleteGuide() {
