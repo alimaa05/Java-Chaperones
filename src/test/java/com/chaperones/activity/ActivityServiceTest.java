@@ -7,8 +7,10 @@ import org.mockito.Mockito;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -88,16 +90,53 @@ private ActivityDAO mockDAO;
         verify(mockDAO,times(1)).add(activity);
 
 
-
     }
 
     @Test
-    void getActivityById() {
+    void cantAddDuplicateActivity() {
         // Given
+
+        // want to return a list
+        // activities with the same values
+        Activity activity = new Activity(1,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+        Activity activity1 = new Activity(2,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+        // getting a list view of array
+        List<Activity> testingCantDuplicateActivities = new ArrayList<>(Arrays.asList(activity, activity1));
 
         // When
 
+        // when you call mockDAO get all in a list and return the list 'testingGetAllActivities'
+        when(mockDAO.getAll()).thenReturn(testingCantDuplicateActivities);
+        when(mockDAO.add(any())).thenReturn(1);
+        // throw an exception
+        IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
+            // calling variable underTest add another activity - add activity1
+            underTest.addNewActivity(activity1);
+        });
+
         // Then
+        verify(mockDAO,times(1)).getAll();
+        assertEquals("Sorry, this activity already exists. Please try again!", thrown.getMessage());
+
+    }
+
+
+    @Test
+    void canGetActivityById() {
+
+        // Given
+        Activity expectedActivity = new Activity(1,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+
+
+        // When
+        when(mockDAO.getById(1)).thenReturn(expectedActivity);
+        Activity actual = underTest.getActivityById(1);
+
+
+        // Then
+        verify(mockDAO, times(1)).getById(1);
+        assertThat(actual).isEqualTo(expectedActivity);
+
     }
 
     @Test
