@@ -186,6 +186,28 @@ class GuideServiceTest {
     }
 
     @Test
+    void updateGuideByIdWhenDAODoesNotReturn1() {
+        // Given
+        Guide testGuide = new Guide(1, "blah", "01424 346816", "blah@gmail.com");
+        Guide changedTestGuide = new Guide(1, "blah", "01424 346889", "blah@gmail.com");
+        List<Guide> testList = new ArrayList<>(Arrays.asList(testGuide));
+
+        // When
+        when(mockDAO.getById(1)).thenReturn(testGuide);
+        when(mockDAO.updateById(1,changedTestGuide)).thenReturn(0);
+        IllegalStateException ex = assertThrows(IllegalStateException.class, () -> {
+            underTest.updateGuide(1, changedTestGuide);
+        });
+
+        // Then
+        assertEquals("Unable to update this guide", ex.getMessage());
+        verify(mockDAO, times(1)).getById(1);
+        verify(mockDAO,times(1)).updateById(1, changedTestGuide);
+
+    }
+
+
+    @Test
     void deleteGuide() {
         // Given
 
