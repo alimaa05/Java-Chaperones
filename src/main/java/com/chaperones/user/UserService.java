@@ -45,7 +45,7 @@ public class UserService {
             throw new UserNotFoundException("User with id " + id + " could not be found");
         }
 
-        return userDAO.getActivitiesByUser(id, cancelled);
+        return userDAO.getActivities(id, cancelled);
     }
 
     public void updateUserById(Integer id, User user) {
