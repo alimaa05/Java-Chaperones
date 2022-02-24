@@ -184,7 +184,7 @@ private ActivityDAO mockDAO;
     }
 
     @Test
-    void canUpdateActivityByIdThatDoesNotExist() {
+    void canUpdateActivityByIdWhenIdDoesNotExist() {
         // Given
         Activity originalActivity = new Activity(2,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
         Activity updatedActivity = new Activity(2,4,2,"London Bridge","newTest", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
@@ -201,6 +201,28 @@ private ActivityDAO mockDAO;
         verify(mockDAO, times(1)).getById(3);
         verify(mockDAO, never()).updateById(3,updatedActivity);
         assertEquals("Sorry, activity with id 3 does not exist", thrown.getMessage());
+
+    }
+
+
+    @Test
+    void canUpdateActivityByIdWhenActivityIsNotEqualOne() {
+        // Given
+        Activity originalActivity = new Activity(2,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+        Activity updatedActivity = new Activity(2,4,2,"London Bridge","newTest", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+
+
+        // When
+        when(mockDAO.getById(2)).thenReturn(originalActivity);
+        when(mockDAO.updateById(2,updatedActivity)).thenReturn(0);
+        IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
+            underTest.updateActivityById(2, updatedActivity);
+        });
+        // Then
+
+        verify(mockDAO, times(1)).getById(2);
+        verify(mockDAO, times(1)).updateById(2,updatedActivity);
+        assertEquals("Sorry, activity with id 2 could not be updated", thrown.getMessage());
 
     }
 
