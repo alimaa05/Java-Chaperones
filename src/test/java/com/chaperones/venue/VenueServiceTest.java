@@ -51,7 +51,7 @@ class VenueServiceTest {
         List<Venue> venues = new ArrayList<>(Arrays.asList(venue1, venue2));
 
         // When
-        Venue venue3 = new Venue(3, "Same name ", "area3", "address3");
+        Venue venue3 = new Venue(3, "Same Name", "area3", "address3");
         when(DAO.getAll()).thenReturn(venues);
         when(DAO.add(any())).thenReturn(1);
         IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
