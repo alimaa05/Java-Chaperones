@@ -1,6 +1,5 @@
 package com.chaperones.user;
 
-import com.chaperones.venue.Venue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -67,9 +66,10 @@ class UserServiceTest {
         List<User> testUsers = new ArrayList<>();
         User testUser = new User(1, "ash", "08933 283409", "ash@gmail.com");
         User testUser1 = new User(2, "misty", "03833 283409", "misty@gmail.com");
-        testUsers.add(testUser);
+
 
         // When
+        testUsers.add(testUser);
         when(mockDAO.getAll()).thenReturn(testUsers);
         underTest.getAllUsers();
 
@@ -92,6 +92,19 @@ class UserServiceTest {
 
     @Test
     void getUserById() {
+        // Given
+        List<User> testUsers = new ArrayList<>();
+        User testUser = new User(1, "ash", "08933 283409", "ash@gmail.com");
+        User testUser1 = new User(2, "misty", "03833 283409", "misty@gmail.com");
+        testUsers.add(testUser);
+        testUsers.add(testUser1);
+
+        // When
+        when(mockDAO.getById(1)).thenReturn(testUser);
+        underTest.getUserById(1);
+
+        // Then
+        verify(mockDAO, times(1)).getById(1);
     }
 
     @Test
