@@ -1,5 +1,6 @@
 package com.chaperones.activity;
 
+import com.chaperones.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -9,6 +10,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -281,15 +283,25 @@ private ActivityDAO mockDAO;
 
     }
 
-
     @Test
-    void getAllUsersFromGivenActivity() {
+    void canGetAllUsersFromGivenActivity() {
         // Given
 
+        Activity originalActivity = new Activity(2,2,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+        List<User> selectedUsers = new ArrayList<>();
+
         // When
+        when(mockDAO.getById(2)).thenReturn(originalActivity);
+        when(mockDAO.getAllUsersFromGivenActivity(2)).thenReturn(selectedUsers);
+        underTest.getAllUsersFromGivenActivity(2);
 
         // Then
+        verify(mockDAO, times(1)).getById(2);
+        verify(mockDAO, times(1)).getAllUsersFromGivenActivity(2);
+
     }
+
+
 
     @Test
     void getFreeSpaces() {
