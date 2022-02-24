@@ -1,7 +1,6 @@
 package com.chaperones.venue;
 
 import com.chaperones.activity.Activity;
-import com.chaperones.user.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +18,13 @@ public class VenueService {
     public void addNewVenue(Venue venue) {
         List<Venue> allVenues = venueDAO.getAll();
         for (Venue v : allVenues) {
-            if (venue.getName().trim().equalsIgnoreCase(v.getName().trim())) {
+            if (venue.getName().equalsIgnoreCase(v.getName())) {
                 throw new IllegalStateException("Venue already exists");
             }
         }
-        int result = venueDAO.add(venue);
+        int added = venueDAO.add(venue);
 
-        if (result != 1) {
+        if (added != 1) {
             throw new IllegalStateException("Venue could not be added");
         }
     }

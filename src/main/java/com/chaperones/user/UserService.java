@@ -1,8 +1,6 @@
 package com.chaperones.user;
 
 import com.chaperones.activity.Activity;
-import com.chaperones.activity.ActivityDoesNotExistException;
-import com.chaperones.venue.VenueNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +16,15 @@ public class UserService {
     }
 
     public void addNewUser(User user) {
-        List<User> getAllUsers = userDAO.getAll();
-        for (User getUserById : getAllUsers) {
-            if (getUserById.getPhoneNumber().equals(user.getPhoneNumber())
-                    || getUserById.getEmail().equals(user.getEmail())) {
+        List<User> allUsers = userDAO.getAll();
+        for (User u : allUsers) {
+            if (u.getPhoneNumber().equals(user.getPhoneNumber())
+                    || u.getEmail().equalsIgnoreCase(user.getEmail())) {
                 throw new IllegalStateException("User already exists");
             }
         }
-        int addUser = userDAO.add(user);
-        if (addUser != 1) {
+        int added = userDAO.add(user);
+        if (added != 1) {
             throw new IllegalStateException("User could not be added");
         }
     }
