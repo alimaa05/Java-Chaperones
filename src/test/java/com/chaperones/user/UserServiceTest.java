@@ -229,6 +229,7 @@ class UserServiceTest {
         // Given
         User originalUser = new User(1, "ash", "08933 283409", "ash@gmail.com");
         List<Activity> testActivity = new ArrayList<>();
+
         // When
         when(mockDAO.getById(1)).thenReturn(originalUser);
         when(mockDAO.getActivities(1, false)).thenReturn(testActivity);
