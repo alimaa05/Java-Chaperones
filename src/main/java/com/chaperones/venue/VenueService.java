@@ -23,9 +23,9 @@ public class VenueService {
                 throw new IllegalStateException("Venue already exists");
             }
         }
-        int result = venueDAO.add(venue);
+        int added = venueDAO.add(venue);
 
-        if (result != 1) {
+        if (added != 1) {
             throw new IllegalStateException("Venue could not be added");
         }
     }
