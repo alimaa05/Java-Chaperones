@@ -238,18 +238,26 @@ class GuideServiceTest {
             underTest.deleteGuide(1);
         });
 
-
         // Then
         assertEquals("Unable to delete this guide", ex.getMessage());
         verify(mockDAO, times(1)).deleteById(1);
     }
 
     @Test
-    void guidesActivities() {
+    void getGuidesActivitiesThatAreActive() {
         // Given
-
+        Guide testGuide = new Guide(1, "blah", "01424 346816", "blah@gmail.com");
+        List<Guide> testList = new ArrayList<>(Arrays.asList(testGuide));
+        List<Activity> testActivities = new ArrayList<>();
+        Activity activity = new Activity(1,1,2,"Kew Gardens","test", LocalDate.of(2022,03,12), LocalTime.of(13,0,00),"1hr",40.00, 20, false);
+        testActivities.add(activity);
         // When
-
+        when(mockDAO.getAll()).thenReturn(testList);
+        when(mockDAO.getById(1)).thenReturn(testGuide);
+        when(mockDAO.allActivities(1, false)).thenReturn(testActivities);
+        List<Activity> actual = underTest.guidesActivities(1, false);
         // Then
+        verify(mockDAO, times(1)).allActivities(1, false);
+        assertThat(actual).isEqualTo(testActivities);
     }
 }
