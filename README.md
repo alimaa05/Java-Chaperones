@@ -13,10 +13,10 @@ This project was motivated by a desire to have in-person social activities, aimi
 
 # Getting Started:
 
-Fork this Repository
-Clone your forked repository
-Open in your java IDE
-Go to the db setup SQL file 
-Copy the SQL APART FROM the drop tables
+Fork this Repository,
+Clone your forked repository,
+Open in your java IDE,
+Go to the db setup SQL file, 
+Copy the SQL APART FROM the drop tables,
 Create a database called chaperones and paste the SQL queries.
 
